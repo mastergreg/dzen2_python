@@ -1,4 +1,3 @@
-#import threading
 from ConfigParser import RawConfigParser
 from time import sleep
 config = RawConfigParser()
