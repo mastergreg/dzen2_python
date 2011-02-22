@@ -1,5 +1,4 @@
 import threading
-import urllib2
 import ConfigParser
 from time import sleep
 config = ConfigParser.RawConfigParser()
@@ -37,7 +36,7 @@ FONT=config.get('main_config','FONT')
 #-misc-fixed-medium-r-normal--12-*-*-*-*-*-iso8859-1'
 # -*-terminus-*-r-normal-*-13-120-*-*-*-*-iso8859-*
 RUN_ORDER=["XMONAD","CPU","MEM","WEATHER","DATE"]
-REQ = urllib2.Request(config.get('main_config','REQ'))
+REQ = config.get('main_config','REQ')
 p=""
 
 
@@ -83,3 +82,12 @@ findandreplace=[
 , ['#000007',LAYOUT_TEXT_COLOR]
 , ['#000070',LAYOUT_BACKGROUND_COLOR]
 ]
+
+
+
+
+def replace_p():
+  a = p  
+  for couple in findandreplace:
+    a=a.replace(couple[0],couple[1])
+  return a

@@ -1,10 +1,10 @@
 from time import sleep
-import threading
+from threading import Thread
 from socket import error as SocketError
 from mpd import MPDClient, ConnectionError
 from config_mod import HOSTS , PORT
 SONG=""
-class get_mpd(threading.Thread):
+class get_mpd(Thread):
   def run (self):
     global HOSTS,PORT,CON_ID,SONG 
     host=HOSTS[0]
