@@ -18,10 +18,9 @@ NEW_LINE=""
 res_proc= Popen("xrandr  | grep \* | cut -d' ' -f4",shell=True,stdout=PIPE)
 resolution = res_proc.stdout
 [SCREEN_WIDTH,SCREEN_HEIGHT]=resolution.read().split()[0].split('x')
-print SCREEN_WIDTH+'x'+SCREEN_HEIGHT
 """METHODS AND FUNCTIONS USED"""
 def get_data():
-  if len(p)>160:
+  if len(p)>170:
     NEW_LINE="\n"
   else:
     NEW_LINE="" 
