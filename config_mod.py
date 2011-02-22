@@ -53,9 +53,7 @@ HDDTEMP_SLEEP=config.get('main_config','HDDTEMP_SLEEP')
 HDDTEMP=""
 """SYSTEM PERFORMANCE STUFF"""
 CPU_SLEEP=config.get('main_config','CPU_SLEEP')
-CPU=""
 RAM_SLEEP=config.get('main_config','RAM_SLEEP')
-RAM=""
 BATTERY=""
 
 """MPD STATUS"""

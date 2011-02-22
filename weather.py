@@ -11,7 +11,6 @@ class get_weather(threading.Thread):
     
     while True:
       try:
-        print REQ
         request = urllib2.Request(REQ)
         response = urllib2.urlopen(request)
         the_page = response.read()
