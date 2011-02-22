@@ -4,8 +4,9 @@ from signal import signal, alarm, SIGALRM
 from subprocess import Popen,PIPE
 from sys import stdin as SysStdin
 from time import strftime
+from os import system
 
-from config_mod import replace_p,TEXT_COLOR,BACKGROUND_COLOR,FONT,TIME_COLOR, TIME_BACKGROUND_COLOR 
+from config_mod import replace_p,TEXT_COLOR,BACKGROUND_COLOR,FONT,TIME_COLOR, TIME_BACKGROUND_COLOR, SCREEN_PERCENTAGE 
 import mpd_mod
 import weather
 import cpu
@@ -14,7 +15,10 @@ import hddtemp
 import battery
 from colors import *
 
-
+res_proc= Popen("xrandr  | grep \* | cut -d' ' -f4",shell=True,stdout=PIPE)
+resolution = res_proc.stdout
+[SCREEN_WIDTH,SCREEN_HEIGHT]=resolution.read().split()[0].split('x')
+print SCREEN_WIDTH+'x'+SCREEN_HEIGHT
 """METHODS AND FUNCTIONS USED"""
 def get_data():
   return "^tw()" + replace_p(p) + SPACE_PR_SYS_DATA + cpu.CPU + ram.RAM + hddtemp.HDDTEMP + NOW()+weather.WEATHER_COND+battery.BATTERY+mpd_mod.SONG+SPACE_AP_TIME
@@ -31,7 +35,7 @@ SPACE_AP_TIME="\n"
 
 """LAUNCH DZEN"""
 
-proc = Popen('dzen2 -w 950 -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -fn '+FONT, 
+proc = Popen('dzen2 -w '+str(int(SCREEN_WIDTH)*float(SCREEN_PERCENTAGE))+' -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -fn '+FONT, 
                         shell=True, 
                         stdin=PIPE
                         )

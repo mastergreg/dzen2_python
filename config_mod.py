@@ -46,21 +46,18 @@ TIME_BACKGROUND_COLOR=config.get('main_config','TIME_BACKGROUND_COLOR')
 WEATHER_SLEEP=config.get('main_config','WEATHER_SLEEP')
 WEATHER_COLOR=config.get('main_config','WEATHER_COLOR')
 WEATHER_BACKGROUND_COLOR=config.get('main_config','WEATHER_BACKGROUND_COLOR')
-#WEATHER_COND=""
 """TEMPERATURE STUFF"""
 HDDTEMP_SLEEP=config.get('main_config','HDDTEMP_SLEEP')
-HDDTEMP=""
 """SYSTEM PERFORMANCE STUFF"""
 CPU_SLEEP=config.get('main_config','CPU_SLEEP')
 RAM_SLEEP=config.get('main_config','RAM_SLEEP')
-BATTERY=""
 
 """MPD STATUS"""
 HOSTS = config.get('main_config','MPD_HOST').split()
 PORT = config.get('main_config','MPD_PORT')
-#SONG ="" 
 
-
+"""SCREEN"""
+SCREEN_PERCENTAGE = config.get('main_config','SCREEN_PERCENTAGE')
 
 
 findandreplace=[
