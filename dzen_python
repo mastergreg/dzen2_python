@@ -15,16 +15,20 @@ import hddtemp
 import battery
 from colors import *
 NEW_LINE=""
+NEW_LINE_TIME=""
 res_proc= Popen("xrandr  | grep \* | cut -d' ' -f4",shell=True,stdout=PIPE)
 resolution = res_proc.stdout
 [SCREEN_WIDTH,SCREEN_HEIGHT]=resolution.read().split()[0].split('x')
 """METHODS AND FUNCTIONS USED"""
+CRUCIAL_WIDTH=int(SCREEN_WIDTH)/6
 def get_data():
-  if len(p)>170:
+  L=len(p)
+  print L
+  if L>CRUCIAL_WIDTH:
     NEW_LINE="\n"
   else:
-    NEW_LINE="" 
-  return "^tw()" + replace_p(p) + SPACE_PR_SYS_DATA + cpu.CPU + ram.RAM + hddtemp.HDDTEMP + battery.BATTERY + NOW()+NEW_LINE+weather.WEATHER_COND+mpd_mod.SONG+SPACE_AP_TIME
+    NEW_LINE=""
+  return "^tw()" + replace_p(p) + SPACE_PR_SYS_DATA + cpu.CPU + ram.RAM + hddtemp.HDDTEMP + battery.BATTERY +NEW_LINE_TIME+NOW()+NEW_LINE+weather.WEATHER_COND+mpd_mod.SONG+SPACE_AP_TIME
 ##+get_top_processes()
 def NOW():
   return " "+set_colors(TIME_COLOR,TIME_BACKGROUND_COLOR)+strftime("%d-%m %H:%M")+set_normal_color()
