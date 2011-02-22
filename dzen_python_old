@@ -1,0 +1,290 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import signal
+import sys, psutil, subprocess
+from time import sleep , ctime , time, strftime
+import urllib2
+import re
+import os
+import threading
+from socket import socket, AF_INET,SOCK_STREAM , error as SocketError
+from string import replace
+import ConfigParser
+
+config = ConfigParser.RawConfigParser()
+from mpd import MPDClient, ConnectionError
+
+
+
+config.readfp(open('.dzen_pythonrc'))
+config.get('main_config','HIDDEN_BACKGROUND_COLOR')
+
+"""GLOBAL VARIBLES OF CONFIGURATION"""
+
+TEXT_COLOR=config.get('main_config','TEXT_COLOR')
+BACKGROUND_COLOR=config.get('main_config','BACKGROUND_COLOR')
+CURRENT_TEXT_COLOR=config.get('main_config','CURRENT_TEXT_COLOR')
+CURRENT_BACKGROUND_COLOR=config.get('main_config','CURRENT_BACKGROUND_COLOR')
+VISIBLE_TEXT_COLOR=config.get('main_config','VISIBLE_TEXT_COLOR')
+VISIBLE_BACKGROUND_COLOR=config.get('main_config','VISIBLE_BACKGROUND_COLOR')
+
+HIDDEN_TEXT_COLOR=config.get('main_config','HIDDEN_TEXT_COLOR')
+HIDDEN_BACKGROUND_COLOR=config.get('main_config','HIDDEN_BACKGROUND_COLOR')
+
+HIDDEN_NO_WINDOWS_TEXT_COLOR=config.get('main_config','HIDDEN_NO_WINDOWS_TEXT_COLOR')
+HIDDEN_NO_WINDOWS_BACKGROUND_COLOR=config.get('main_config','HIDDEN_NO_WINDOWS_BACKGROUND_COLOR')
+
+URGENT_TEXT_COLOR=config.get('main_config','URGENT_TEXT_COLOR')
+URGENT_BACKGROUND_COLOR=config.get('main_config','URGENT_BACKGROUND_COLOR')
+
+TITLE_TEXT_COLOR=config.get('main_config','TITLE_TEXT_COLOR')
+TITLE_BACKGROUND_COLOR=config.get('main_config','TITLE_BACKGROUND_COLOR')
+
+LAYOUT_TEXT_COLOR=config.get('main_config','LAYOUT_TEXT_COLOR')
+LAYOUT_BACKGROUND_COLOR=config.get('main_config','LAYOUT_BACKGROUND_COLOR')
+
+MEASURE_NORMAL_COLOR=config.get('main_config','MEASURE_NORMAL_COLOR')
+MEASURE_MEDI_COLOR=config.get('main_config','MEASURE_MEDI_COLOR')
+MEASURE_HIGH_COLOR=config.get('main_config','MEASURE_HIGH_COLOR')
+FONT=config.get('main_config','FONT')
+#-misc-fixed-medium-r-normal--12-*-*-*-*-*-iso8859-1'
+# -*-terminus-*-r-normal-*-13-120-*-*-*-*-iso8859-*
+RUN_ORDER=["XMONAD","CPU","MEM","WEATHER","DATE"]
+REQ = urllib2.Request(config.get('main_config','REQ'))
+p=""
+
+
+TIME_COLOR=config.get('main_config','TIME_COLOR')
+TIME_BACKGROUND_COLOR=config.get('main_config','TIME_BACKGROUND_COLOR')
+#FFFF66"
+"""WEATHER STUFF"""
+WEATHER_SLEEP=config.get('main_config','WEATHER_SLEEP')
+WEATHER_COLOR=config.get('main_config','WEATHER_COLOR')
+WEATHER_BACKGROUND_COLOR=config.get('main_config','WEATHER_BACKGROUND_COLOR')
+WEATHER_COND=""
+"""TEMPERATURE STUFF"""
+HDDTEMP_SLEEP=config.get('main_config','HDDTEMP_SLEEP')
+HDDTEMP=""
+"""SYSTEM PERFORMANCE STUFF"""
+CPU_SLEEP=config.get('main_config','CPU_SLEEP')
+CPU=""
+RAM_SLEEP=config.get('main_config','RAM_SLEEP')
+RAM=""
+BATTERY=""
+
+"""MPD STATUS"""
+HOSTS = config.get('main_config','MPD_HOST').split()
+PORT = config.get('main_config','MPD_PORT')
+SONG ="" 
+"""METHODS AND FUNCTIONS USED"""
+findandreplace=[
+  ['#000001',CURRENT_TEXT_COLOR]
+, ['#000010',CURRENT_BACKGROUND_COLOR]
+, ['#000002',VISIBLE_TEXT_COLOR]
+, ['#000020',VISIBLE_BACKGROUND_COLOR]
+, ['#000003',HIDDEN_TEXT_COLOR]
+, ['#000030',HIDDEN_BACKGROUND_COLOR]
+, ['#000004',HIDDEN_NO_WINDOWS_TEXT_COLOR]
+, ['#000040',HIDDEN_NO_WINDOWS_BACKGROUND_COLOR]
+, ['#000005',URGENT_TEXT_COLOR]
+, ['#000050',URGENT_BACKGROUND_COLOR]
+, ['#000006',TITLE_TEXT_COLOR]
+, ['#000060',TITLE_BACKGROUND_COLOR]
+, ['#000007',LAYOUT_TEXT_COLOR]
+, ['#000070',LAYOUT_BACKGROUND_COLOR]
+]
+
+def replace_p():
+  a = p  
+  for couple in findandreplace:
+    a=a.replace(couple[0],couple[1])
+  return a
+
+class get_mpd(threading.Thread):
+  def run (self):
+    global HOSTS,PORT,CON_ID,SONG 
+    host=HOSTS[0]
+    client=MPDClient()
+    while True:
+      CON_ID = {'host':host, 'port':PORT}
+      try:  
+        client.connect(**CON_ID)
+        SONG=' ^i(/home/master/.icons/dzen2/music.xbm)'+str(client.currentsong()['artist'])+" - "+str(client.currentsong()['title'])
+        sleep(10)
+      except ConnectionError:
+        SONG=' ^i(/home/master/.icons/dzen2/music.xbm)'+str(client.currentsong()['artist'])+" - "+str(client.currentsong()['title'])
+        sleep(10)
+      except SocketError:
+        host=HOSTS[1]
+        continue
+        
+      
+class get_weather(threading.Thread):
+  def run ( self ):
+    global WEATHER_COND,WEATHER_SLEEP,REQ
+    while True:
+      try:
+        response = urllib2.urlopen(REQ)
+        the_page = response.read()
+        result= re.search('::.*?<',the_page)
+        WEATHER_COND=' '+set_colors(WEATHER_COLOR,WEATHER_BACKGROUND_COLOR)+result.group(0)[2:len(result.group(0))-1]+set_normal_color()
+        sleep(float(WEATHER_SLEEP))
+        continue
+      except (urllib2.URLError,AttributeError):
+        WEATHER_COND=' '+set_colors(WEATHER_COLOR,WEATHER_BACKGROUND_COLOR)+"No Net"+set_normal_color()
+        sleep(30)
+        continue
+class get_battery(threading.Thread):
+  def run(self):
+    global BATTERY
+    while True:
+      f1 = open('/sys/class/power_supply/CMB1/charge_full','r')
+      f2 = open('/sys/class/power_supply/CMB1/charge_now','r')
+      full=float(f1.readline())
+      now=float(f2.readline())
+      BATTERY=" ^i(/home/master/.icons/dzen2/power-bat.xbm)"+str(int(now*100/full))+"%"
+      f1.close()
+      f2.close()
+      sleep(60)
+class get_hddtemp(threading.Thread):
+  def run(self):
+    global HDDTEMP,HDDTEMP_SLEEP
+    while 1:
+      s = socket(AF_INET, SOCK_STREAM)
+      s.connect(("localhost",7634))
+      buf = s.recv(4096)
+      s.close()
+      temp=buf[len(buf)-5:len(buf)-3]
+      try:
+        percentage=int(temp)*2
+      except ValueError:
+        continue
+      HDDTEMP=" ^i(/home/master/.icons/dzen2/temp.xbm) "+set_measure_color(percentage)+temp+set_normal_color()+"C"
+      sleep(int(HDDTEMP_SLEEP))
+class get_cpu(threading.Thread):
+  def run(self):
+    MAX_FREQ=0
+    MIN_FREQ=999999
+    while 1:
+      global CPU,CPU_SLEEP
+      f = open('/proc/cpuinfo', 'r')
+##      cpu_frequencies=""
+      freqs=[]
+      for line in f:
+        if line.startswith('cpu MHz'):
+          freqs.append(int(round(float(line.split()[3]),0)))
+      f.close()
+##      for i in range (len(freqs)):
+##        cpu_frequencies+=" Core"+str(i)+"@ "+str(freqs[i])
+      freq=max(freqs)
+      if MAX_FREQ<freq:
+        MAX_FREQ=freq
+      fpercentage=100*freq/MAX_FREQ
+      cpu_frequencies=" @ "+set_measure_color(fpercentage)+str(round(freq/1000.,1))+set_normal_color()+"GHz"
+      percentage=round(psutil.cpu_percent(), 1)
+      CPU=" ^i(/home/master/.icons/dzen2/cpu.xbm) "+set_measure_color(percentage)+str(percentage)+set_normal_color()+"%"+cpu_frequencies
+      sleep(int(CPU_SLEEP))
+class get_mem(threading.Thread):
+  def run(self):
+    global RAM,RAM_SLEEP
+    while 1:
+      used=bytes_to_mb(psutil.used_phymem()-cached_mem()-buffers())
+      percentage=(100*used)/TOTAL_RAM_MB
+      RAM=" ^i(/home/master/.icons/dzen2/mem.xbm) "+set_measure_color(percentage)+str(used)+set_normal_color()+"M"
+      sleep(int(RAM_SLEEP))
+def bytes_to_mb(byte):
+  return byte/1048576
+def get_data():
+  return "^tw()" + replace_p() + SPACE_PR_SYS_DATA + CPU + RAM + HDDTEMP + NOW()+WEATHER_COND+BATTERY+SONG+SPACE_AP_TIME
+##+get_top_processes()
+def NOW():
+  return " "+set_colors(TIME_COLOR,TIME_BACKGROUND_COLOR)+strftime("%d-%m %H:%M")+set_normal_color()
+def handler(signum,frame):
+  return
+def cached_mem():
+  """Return the amount of cached memory on the system, in bytes."""
+  f = open('/proc/meminfo', 'r')
+  for line in f:
+    if line.startswith('Cached:'):
+      f.close()
+      return int(line.split()[1]) * 1024
+def cached_swap():
+  """Return the amount of cached swap on the system, in bytes."""
+  f = open('/proc/meminfo', 'r')
+  for line in f:
+    if line.startswith('SwapCached:'):
+      f.close()
+      return int(line.split()[1]) * 1024
+def buffers():
+  """Return the amount of buffers on the system, in bytes."""
+  f = open('/proc/meminfo', 'r')
+  for line in f:
+    if line.startswith('Buffers:'):
+      f.close()
+      return int(line.split()[1]) * 1024
+
+
+def set_color(color):
+  return '^fg('+color+')^bg()'
+def set_colors(fbcolor,bgcolor):
+  return '^fg('+fbcolor+')^bg('+bgcolor+')'
+def set_normal_color():
+  return '^fg()^bg()'
+def set_measure_color(percentage):
+  if (percentage>66):
+    return '^fg('+MEASURE_HIGH_COLOR+')'
+  elif (percentage>33):
+    return '^fg('+MEASURE_MEDI_COLOR+')'
+  else:
+    return '^fg('+MEASURE_NORMAL_COLOR+')'
+##def get_top_processes():
+##  p1 = subprocess.Popen(["top","-n 1","-u","master"],shell=True, stdout=subprocess.PIPE)
+##  p2 = subprocess.Popen(["sed", "-n","1,15p"], stdin=p1.stdout, stdout=subprocess.PIPE)
+##  output = p2.communicate()[0]
+##  return str(output)
+
+
+"""INNER SPACES"""
+
+
+
+SPACE_PR_SYS_DATA=" |"
+SPACE_AP_TIME="\n"
+#SPACE_AP_TIME="\n"
+
+"""GLOBAL RAM TOTALS VARIBLES"""
+
+
+TOTAL_RAM=psutil.TOTAL_PHYMEM
+TOTAL_RAM_MB=bytes_to_mb(TOTAL_RAM)
+
+"""LAUNCH DZEN"""
+
+proc = subprocess.Popen('dzen2 -w 950 -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -fn '+FONT, 
+                        shell=True, 
+                        stdin=subprocess.PIPE
+                        )
+(child_stdin, child_stdout) = (proc.stdin, proc.stdout)
+signal.signal(signal.SIGALRM,handler)
+
+
+"""MAIN LOOP"""
+get_weather().start()
+get_hddtemp().start()
+get_cpu().start()
+get_mem().start()
+get_battery().start()
+get_mpd().start()
+while True:
+  signal.alarm(1)
+  try:
+    p=sys.stdin.readline()
+    p=p.replace('\n','')
+    data=get_data()
+    child_stdin.write(data)
+    continue
+  except:
+    data=get_data()
+    child_stdin.write(data)
+    continue

@@ -1,0 +1,168 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import signal
+import sys, psutil, subprocess
+from time import sleep , ctime , time, strftime
+
+import os
+import threading
+from socket import socket, AF_INET,SOCK_STREAM
+from string import replace
+
+from config_mod import *
+import mpd_mod
+import weather
+from colors import *
+
+
+"""METHODS AND FUNCTIONS USED"""
+
+def replace_p():
+  a = p  
+  for couple in findandreplace:
+    a=a.replace(couple[0],couple[1])
+  return a
+
+        
+      
+class get_battery(threading.Thread):
+  def run(self):
+    global BATTERY
+    while True:
+      f1 = open('/sys/class/power_supply/CMB1/charge_full','r')
+      f2 = open('/sys/class/power_supply/CMB1/charge_now','r')
+      full=float(f1.readline())
+      now=float(f2.readline())
+      BATTERY=" ^i(/home/master/.icons/dzen2/power-bat.xbm)"+str(int(now*100/full))+"%"
+      f1.close()
+      f2.close()
+      sleep(60)
+class get_hddtemp(threading.Thread):
+  def run(self):
+    global HDDTEMP,HDDTEMP_SLEEP
+    while 1:
+      s = socket(AF_INET, SOCK_STREAM)
+      s.connect(("localhost",7634))
+      buf = s.recv(4096)
+      s.close()
+      temp=buf[len(buf)-5:len(buf)-3]
+      try:
+        percentage=int(temp)*2
+      except ValueError:
+        continue
+      HDDTEMP=" ^i(/home/master/.icons/dzen2/temp.xbm) "+set_measure_color(percentage)+temp+set_normal_color()+"C"
+      sleep(int(HDDTEMP_SLEEP))
+class get_cpu(threading.Thread):
+  def run(self):
+    MAX_FREQ=0
+    MIN_FREQ=999999
+    while 1:
+      global CPU,CPU_SLEEP
+      f = open('/proc/cpuinfo', 'r')
+##      cpu_frequencies=""
+      freqs=[]
+      for line in f:
+        if line.startswith('cpu MHz'):
+          freqs.append(int(round(float(line.split()[3]),0)))
+      f.close()
+##      for i in range (len(freqs)):
+##        cpu_frequencies+=" Core"+str(i)+"@ "+str(freqs[i])
+      freq=max(freqs)
+      if MAX_FREQ<freq:
+        MAX_FREQ=freq
+      fpercentage=100*freq/MAX_FREQ
+      cpu_frequencies=" @ "+set_measure_color(fpercentage)+str(round(freq/1000.,1))+set_normal_color()+"GHz"
+      percentage=round(psutil.cpu_percent(), 1)
+      CPU=" ^i(/home/master/.icons/dzen2/cpu.xbm) "+set_measure_color(percentage)+str(percentage)+set_normal_color()+"%"+cpu_frequencies
+      sleep(int(CPU_SLEEP))
+class get_mem(threading.Thread):
+  def run(self):
+    global RAM,RAM_SLEEP
+    while 1:
+      used=bytes_to_mb(psutil.used_phymem()-cached_mem()-buffers())
+      percentage=(100*used)/TOTAL_RAM_MB
+      RAM=" ^i(/home/master/.icons/dzen2/mem.xbm) "+set_measure_color(percentage)+str(used)+set_normal_color()+"M"
+      sleep(int(RAM_SLEEP))
+def bytes_to_mb(byte):
+  return byte/1048576
+def get_data():
+  return "^tw()" + replace_p() + SPACE_PR_SYS_DATA + CPU + RAM + HDDTEMP + NOW()+weather.WEATHER_COND+BATTERY+mpd_mod.SONG+SPACE_AP_TIME
+##+get_top_processes()
+def NOW():
+  return " "+set_colors(TIME_COLOR,TIME_BACKGROUND_COLOR)+strftime("%d-%m %H:%M")+set_normal_color()
+def handler(signum,frame):
+  return
+def cached_mem():
+  """Return the amount of cached memory on the system, in bytes."""
+  f = open('/proc/meminfo', 'r')
+  for line in f:
+    if line.startswith('Cached:'):
+      f.close()
+      return int(line.split()[1]) * 1024
+def cached_swap():
+  """Return the amount of cached swap on the system, in bytes."""
+  f = open('/proc/meminfo', 'r')
+  for line in f:
+    if line.startswith('SwapCached:'):
+      f.close()
+      return int(line.split()[1]) * 1024
+def buffers():
+  """Return the amount of buffers on the system, in bytes."""
+  f = open('/proc/meminfo', 'r')
+  for line in f:
+    if line.startswith('Buffers:'):
+      f.close()
+      return int(line.split()[1]) * 1024
+
+
+##def get_top_processes():
+##  p1 = subprocess.Popen(["top","-n 1","-u","master"],shell=True, stdout=subprocess.PIPE)
+##  p2 = subprocess.Popen(["sed", "-n","1,15p"], stdin=p1.stdout, stdout=subprocess.PIPE)
+##  output = p2.communicate()[0]
+##  return str(output)
+
+
+"""INNER SPACES"""
+
+
+
+SPACE_PR_SYS_DATA=" |"
+SPACE_AP_TIME="\n"
+#SPACE_AP_TIME="\n"
+
+"""GLOBAL RAM TOTALS VARIBLES"""
+
+
+TOTAL_RAM=psutil.TOTAL_PHYMEM
+TOTAL_RAM_MB=bytes_to_mb(TOTAL_RAM)
+
+"""LAUNCH DZEN"""
+
+proc = subprocess.Popen('dzen2 -w 950 -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -fn '+FONT, 
+                        shell=True, 
+                        stdin=subprocess.PIPE
+                        )
+(child_stdin, child_stdout) = (proc.stdin, proc.stdout)
+signal.signal(signal.SIGALRM,handler)
+
+
+"""MAIN LOOP"""
+weather.get_weather().start()
+get_hddtemp().start()
+get_cpu().start()
+get_mem().start()
+get_battery().start()
+mpd_mod.get_mpd().start()
+while True:
+  signal.alarm(1)
+  try:
+    p=sys.stdin.readline()
+    p=p.replace('\n','')
+    data=get_data()
+    child_stdin.write(data)
+    continue
+  except:
+    data=get_data()
+    child_stdin.write(data)
+    continue
