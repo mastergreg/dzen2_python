@@ -1,39 +1,23 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import signal
-import sys, psutil, subprocess
-from time import sleep , ctime , time, strftime
+from signal import signal, alarm, SIGALRM
+from subprocess import Popen,PIPE
+from sys import stdin as SysStdin
+from time import strftime
 
-import os
-from threading import Thread
-#from string import replace
-
-from config_mod import *
+from config_mod import replace_p,TEXT_COLOR,BACKGROUND_COLOR,FONT,TIME_COLOR, TIME_BACKGROUND_COLOR 
 import mpd_mod
 import weather
 import cpu
 import ram
 import hddtemp
+import battery
 from colors import *
 
 
 """METHODS AND FUNCTIONS USED"""
-
-      
-class get_battery(Thread):
-  def run(self):
-    global BATTERY
-    while True:
-      f1 = open('/sys/class/power_supply/CMB1/charge_full','r')
-      f2 = open('/sys/class/power_supply/CMB1/charge_now','r')
-      full=float(f1.readline())
-      current=float(f2.readline())
-      BATTERY=" ^i(/home/master/.icons/dzen2/power-bat.xbm)"+str(int(current*100/full))+"%"
-      f1.close()
-      f2.close()
-      sleep(60)
 def get_data():
-  return "^tw()" + replace_p(p) + SPACE_PR_SYS_DATA + cpu.CPU + ram.RAM + hddtemp.HDDTEMP + NOW()+weather.WEATHER_COND+BATTERY+mpd_mod.SONG+SPACE_AP_TIME
+  return "^tw()" + replace_p(p) + SPACE_PR_SYS_DATA + cpu.CPU + ram.RAM + hddtemp.HDDTEMP + NOW()+weather.WEATHER_COND+battery.BATTERY+mpd_mod.SONG+SPACE_AP_TIME
 ##+get_top_processes()
 def NOW():
   return " "+set_colors(TIME_COLOR,TIME_BACKGROUND_COLOR)+strftime("%d-%m %H:%M")+set_normal_color()
@@ -47,12 +31,12 @@ SPACE_AP_TIME="\n"
 
 """LAUNCH DZEN"""
 
-proc = subprocess.Popen('dzen2 -w 950 -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -fn '+FONT, 
+proc = Popen('dzen2 -w 950 -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -fn '+FONT, 
                         shell=True, 
-                        stdin=subprocess.PIPE
+                        stdin=PIPE
                         )
 (child_stdin, child_stdout) = (proc.stdin, proc.stdout)
-signal.signal(signal.SIGALRM,handler)
+signal(SIGALRM,handler)
 
 
 """MAIN LOOP"""
@@ -60,12 +44,12 @@ weather.get_weather().start()
 hddtemp.get_hddtemp().start()
 cpu.get_cpu().start()
 ram.get_mem().start()
-get_battery().start()
+battery.get_battery().start()
 mpd_mod.get_mpd().start()
 while True:
-  signal.alarm(1)
+  alarm(1)
   try:
-    p=sys.stdin.readline()
+    p=SysStdin.readline()
     p=p.replace('\n','')
     data=get_data()
     child_stdin.write(data)
