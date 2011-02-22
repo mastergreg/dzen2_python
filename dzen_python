@@ -13,6 +13,7 @@ from string import replace
 from config_mod import *
 import mpd_mod
 import weather
+import cpu
 from colors import *
 
 
@@ -53,29 +54,7 @@ class get_hddtemp(threading.Thread):
         continue
       HDDTEMP=" ^i(/home/master/.icons/dzen2/temp.xbm) "+set_measure_color(percentage)+temp+set_normal_color()+"C"
       sleep(int(HDDTEMP_SLEEP))
-class get_cpu(threading.Thread):
-  def run(self):
-    MAX_FREQ=0
-    MIN_FREQ=999999
-    while 1:
-      global CPU,CPU_SLEEP
-      f = open('/proc/cpuinfo', 'r')
-##      cpu_frequencies=""
-      freqs=[]
-      for line in f:
-        if line.startswith('cpu MHz'):
-          freqs.append(int(round(float(line.split()[3]),0)))
-      f.close()
-##      for i in range (len(freqs)):
-##        cpu_frequencies+=" Core"+str(i)+"@ "+str(freqs[i])
-      freq=max(freqs)
-      if MAX_FREQ<freq:
-        MAX_FREQ=freq
-      fpercentage=100*freq/MAX_FREQ
-      cpu_frequencies=" @ "+set_measure_color(fpercentage)+str(round(freq/1000.,1))+set_normal_color()+"GHz"
-      percentage=round(psutil.cpu_percent(), 1)
-      CPU=" ^i(/home/master/.icons/dzen2/cpu.xbm) "+set_measure_color(percentage)+str(percentage)+set_normal_color()+"%"+cpu_frequencies
-      sleep(int(CPU_SLEEP))
+
 class get_mem(threading.Thread):
   def run(self):
     global RAM,RAM_SLEEP
@@ -87,7 +66,7 @@ class get_mem(threading.Thread):
 def bytes_to_mb(byte):
   return byte/1048576
 def get_data():
-  return "^tw()" + replace_p() + SPACE_PR_SYS_DATA + CPU + RAM + HDDTEMP + NOW()+weather.WEATHER_COND+BATTERY+mpd_mod.SONG+SPACE_AP_TIME
+  return "^tw()" + replace_p() + SPACE_PR_SYS_DATA + cpu.CPU + RAM + HDDTEMP + NOW()+weather.WEATHER_COND+BATTERY+mpd_mod.SONG+SPACE_AP_TIME
 ##+get_top_processes()
 def NOW():
   return " "+set_colors(TIME_COLOR,TIME_BACKGROUND_COLOR)+strftime("%d-%m %H:%M")+set_normal_color()
@@ -150,7 +129,7 @@ signal.signal(signal.SIGALRM,handler)
 """MAIN LOOP"""
 weather.get_weather().start()
 get_hddtemp().start()
-get_cpu().start()
+cpu.get_cpu().start()
 get_mem().start()
 get_battery().start()
 mpd_mod.get_mpd().start()
