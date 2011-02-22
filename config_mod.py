@@ -1,7 +1,7 @@
-import threading
-import ConfigParser
+#import threading
+from ConfigParser import RawConfigParser
 from time import sleep
-config = ConfigParser.RawConfigParser()
+config = RawConfigParser()
 config.readfp(open('.dzen_pythonrc'))
 config.get('main_config','HIDDEN_BACKGROUND_COLOR')
 
