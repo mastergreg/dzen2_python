@@ -86,8 +86,5 @@ findandreplace=[
 
 
 
-def replace_p():
-  a = p  
-  for couple in findandreplace:
-    a=a.replace(couple[0],couple[1])
-  return a
+
+
