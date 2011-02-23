@@ -8,10 +8,10 @@ from psutil import cpu_percent
 CPU=""
 class get_cpu(Thread):
   def run(self):
+    global CPU,CPU_SLEEP
     MAX_FREQ=0
     MIN_FREQ=999999
     while 1:
-      global CPU,CPU_SLEEP
       f = open('/proc/cpuinfo', 'r')
 ##      cpu_frequencies=""
       freqs=[]

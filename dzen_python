@@ -3,7 +3,6 @@
 from signal import signal, alarm, SIGALRM
 from subprocess import Popen,PIPE
 from sys import stdin as SysStdin
-from time import strftime
 from os import system
 from re import sub
 from config_mod import replace_p,TEXT_COLOR,BACKGROUND_COLOR,FONT,TIME_COLOR, TIME_BACKGROUND_COLOR, SCREEN_PERCENTAGE 
@@ -13,24 +12,29 @@ import cpu
 import ram
 import hddtemp
 import battery
-from colors import *
+import time_mod
+import dmesg
+from colors import set_color, set_colors, set_normal_color
+
+
+
+
 res_proc= Popen("xrandr  | grep \* | cut -d' ' -f4",shell=True,stdout=PIPE)
 resolution = res_proc.stdout
 [SCREEN_WIDTH,SCREEN_HEIGHT]=resolution.read().split()[0].split('x')
 """METHODS AND FUNCTIONS USED"""
 CRUCIAL_WIDTH=int(SCREEN_WIDTH)/6
 def get_data():
-#  L=len(p)
-#  if L>CRUCIAL_WIDTH:
-#    NEW_LINE="\n"
-#  else:
-#    NEW_LINE=""
-  data="^tw()" + replace_p(p) + SPACE_PR_SYS_DATA + cpu.CPU + ram.RAM + hddtemp.HDDTEMP + battery.BATTERY + NOW() + weather.WEATHER_COND+mpd_mod.SONG+SPACE_AP_TIME
+  data="^tw()" + replace_p(p) + SPACE_PR_SYS_DATA + cpu.CPU + ram.RAM + hddtemp.HDDTEMP + battery.BATTERY + time_mod.NOW() + weather.WEATHER_COND+mpd_mod.SONG+SPACE_AP_TIME+dmesg.DMESG
   L=len_dzen(data)*FONT_SIZE
   return data
+
+
 ##+get_top_processes()
-def NOW():
-  return " "+set_colors(TIME_COLOR,TIME_BACKGROUND_COLOR)+strftime("%d-%m %H:%M")+set_normal_color()
+
+
+
+
 def handler(signum,frame):
   return
 
@@ -57,7 +61,7 @@ SPACE_AP_TIME="\n"
 
 """LAUNCH DZEN"""
 
-proc = Popen('dzen2 -w '+str(int(SCREEN_WIDTH)*float(SCREEN_PERCENTAGE))+' -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -fn '+FONT, 
+proc = Popen('dzen2 -w '+str(int(SCREEN_WIDTH)*float(SCREEN_PERCENTAGE))+' -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -l 10 -fn '+FONT, 
                         shell=True, 
                         stdin=PIPE
                         )
@@ -72,6 +76,7 @@ cpu.get_cpu().start()
 ram.get_mem().start()
 battery.get_battery().start()
 mpd_mod.get_mpd().start()
+dmesg.get_dmesg().start()
 while True:
   alarm(1)
   try:
