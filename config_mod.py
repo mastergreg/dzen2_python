@@ -34,7 +34,7 @@ MEASURE_HIGH_COLOR=config.get('main_config','MEASURE_HIGH_COLOR')
 FONT=config.get('main_config','FONT')
 #-misc-fixed-medium-r-normal--12-*-*-*-*-*-iso8859-1'
 # -*-terminus-*-r-normal-*-13-120-*-*-*-*-iso8859-*
-RUN_ORDER=["XMONAD","CPU","MEM","WEATHER","DATE"]
+RUN_ORDER=config.get('main_config','RUN_ORDER').split(',')
 REQ = config.get('main_config','REQ')
 p=""
 

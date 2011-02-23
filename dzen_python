@@ -5,7 +5,7 @@ from subprocess import Popen,PIPE
 from sys import stdin as SysStdin
 from os import system
 from re import sub
-from config_mod import replace_p,TEXT_COLOR,BACKGROUND_COLOR,FONT,TIME_COLOR, TIME_BACKGROUND_COLOR, SCREEN_PERCENTAGE 
+from config_mod import replace_p,TEXT_COLOR,BACKGROUND_COLOR,FONT,TIME_COLOR, TIME_BACKGROUND_COLOR, SCREEN_PERCENTAGE,RUN_ORDER 
 import mpd_mod
 import weather
 import cpu
@@ -14,43 +14,30 @@ import hddtemp
 import battery
 import time_mod
 import dmesg
-from colors import set_color, set_colors, set_normal_color
+import dzen_size
 
 
 
 
-res_proc= Popen("xrandr  | grep \* | cut -d' ' -f4",shell=True,stdout=PIPE)
-resolution = res_proc.stdout
-[SCREEN_WIDTH,SCREEN_HEIGHT]=resolution.read().split()[0].split('x')
 """METHODS AND FUNCTIONS USED"""
-CRUCIAL_WIDTH=int(SCREEN_WIDTH)/6
-def get_data():
-  data="^tw()" + replace_p(p) + SPACE_PR_SYS_DATA + cpu.CPU + ram.RAM + hddtemp.HDDTEMP + battery.BATTERY + time_mod.NOW() + weather.WEATHER_COND+mpd_mod.SONG+SPACE_AP_TIME+dmesg.DMESG
-  L=len_dzen(data)*FONT_SIZE
-  return data
-
-
-##+get_top_processes()
-
-
-
+def get_data(p):
+  data_list=[]
+  data_dict={ 'xmonad': replace_p(p),
+              'cpu' : cpu.CPU,
+              'ram' : ram.RAM,
+              'hddtemp' : hddtemp.HDDTEMP,
+              'battery' : battery.BATTERY,
+              'time' : time_mod.NOW(),
+              'weather':weather.WEATHER_COND , 
+              'mpd_song' : mpd_mod.SONG ,
+              'break_line':'\n',
+              'dmesg' : dmesg.DMESG}
+  for i in RUN_ORDER:
+    data_list.append(data_dict[i])
+  return '^tw()'+''.join(data_list)
 
 def handler(signum,frame):
   return
-
-
-
-def get_font_size(font):
-  return (int(font.split('-')[7])/2)+1
-
-
-
-def len_dzen(my_string):
-  new_string = sub('\^.*?\)','',my_string,0)
-  return len(new_string) 
-
-FONT_SIZE=get_font_size(FONT)
-
 
 
 
@@ -61,7 +48,7 @@ SPACE_AP_TIME="\n"
 
 """LAUNCH DZEN"""
 
-proc = Popen('dzen2 -w '+str(int(SCREEN_WIDTH)*float(SCREEN_PERCENTAGE))+' -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -l 10 -fn '+FONT, 
+proc = Popen('dzen2 -w '+dzen_size.DZEN_SIZE+' -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -l 10 -fn '+FONT, 
                         shell=True, 
                         stdin=PIPE
                         )
@@ -82,10 +69,10 @@ while True:
   try:
     p=SysStdin.readline()
     p=p.replace('\n','')
-    data=get_data()
+    data=get_data(p)
     child_stdin.write(data)
     continue
   except:
-    data=get_data()
+    data=get_data(p)
     child_stdin.write(data)
     continue
