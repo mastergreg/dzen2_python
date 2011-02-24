@@ -53,7 +53,7 @@ CPU_SLEEP=config.get('main_config','CPU_SLEEP')
 RAM_SLEEP=config.get('main_config','RAM_SLEEP')
 
 """MPD STATUS"""
-HOSTS = config.get('main_config','MPD_HOST').split()
+HOSTS = config.get('main_config','MPD_HOST').split(',')
 PORT = config.get('main_config','MPD_PORT')
 
 """SCREEN"""

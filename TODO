@@ -1,0 +1,5 @@
+1. build a module to change wallpaper depending on the weather
+2. make dynamically expand dzen when kernel message occurs
+3. add trayer within dzen
+4. add configuration for icon support
+5. add clickable icons to launch applications
