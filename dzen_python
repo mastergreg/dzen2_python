@@ -48,7 +48,7 @@ SPACE_AP_TIME="\n"
 
 """LAUNCH DZEN"""
 
-proc = Popen('dzen2 -w '+dzen_size.DZEN_SIZE+' -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -l 10 -fn '+FONT, 
+proc = Popen('dzen2 -w '+dzen_size.DZEN_SIZE+' -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -fn '+FONT, 
                         shell=True, 
                         stdin=PIPE
                         )
