@@ -12,7 +12,7 @@ class get_battery(Thread):
       full=float(f1.readline())
       current=float(f2.readline())
       percent=int(current*100/full)
-      if percent<5:
+      if percent<9:
         battery_notification().start()
       BATTERY=" ^i(/home/master/.icons/dzen2/power-bat.xbm)"+set_measure_color(100-percent)+str(percent)+set_normal_color()+"%"
       f1.close()
@@ -24,8 +24,6 @@ class battery_notification(Thread):
       notif=Popen("dzen2 -fn '-misc-fixed-bold-r-semicondensed--13-90-100-100-c-60-iso8859-1' -w 150 -x 400 -y 300 -bg black -fg red",shell=True,stdin=PIPE)
       notif.stdin.write("LOW BATTERY\n")
       sleep(1)
-      notif.kill()
-      notif.wait()
-      print notif.returncode
+      notif.send_singal(SIGKILL)
       sleep(1)
 
