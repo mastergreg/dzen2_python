@@ -24,7 +24,9 @@ class get_cpu(Thread):
       freq=max(freqs)
       if MAX_FREQ<freq:
         MAX_FREQ=freq
-      fpercentage=100*freq/MAX_FREQ
+      if MIN_FREQ>freq:
+        MIN_FREQ=freq-1
+      fpercentage=100*(freq-MIN_FREQ)/(MAX_FREQ-MIN_FREQ)
       cpu_frequencies=" @ "+set_measure_color(fpercentage)+str(round(freq/1000.,1))+set_normal_color()+"GHz"
       percentage=round(cpu_percent(), 1)
       CPU=" ^i(/home/master/.icons/dzen2/cpu.xbm) "+set_measure_color(percentage)+str(percentage)+set_normal_color()+"%"+cpu_frequencies
