@@ -40,39 +40,42 @@ def handler(signum,frame):
   return
 
 
+def main():
+  """INNER SPACES"""
 
-"""INNER SPACES"""
+  SPACE_PR_SYS_DATA=" |"
+  SPACE_AP_TIME="\n"
 
-SPACE_PR_SYS_DATA=" |"
-SPACE_AP_TIME="\n"
+  """LAUNCH DZEN"""
 
-"""LAUNCH DZEN"""
-
-proc = Popen('dzen2 -w '+dzen_size.DZEN_SIZE+' -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -fn '+FONT, 
-                        shell=True, 
-                        stdin=PIPE
-                        )
-(child_stdin, child_stdout) = (proc.stdin, proc.stdout)
-signal(SIGALRM,handler)
+  proc = Popen('dzen2 -y '+str(int(dzen_size.SCREEN_HEIGHT)-14)+' -w '+dzen_size.DZEN_SIZE+' -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -fn '+FONT, 
+                          shell=True, 
+                          stdin=PIPE
+                          )
+  (child_stdin, child_stdout) = (proc.stdin, proc.stdout)
+  signal(SIGALRM,handler)
 
 
-"""MAIN LOOP"""
-weather.get_weather().start()
-hddtemp.get_hddtemp().start()
-cpu.get_cpu().start()
-ram.get_mem().start()
-battery.get_battery().start()
-mpd_mod.get_mpd().start()
-dmesg.get_dmesg().start()
-while True:
-  alarm(1)
-  try:
-    p=SysStdin.readline()
-    p=p.replace('\n','')
-    data=get_data(p)
-    child_stdin.write(data)
-    continue
-  except:
-    data=get_data(p)
-    child_stdin.write(data)
-    continue
+  """MAIN LOOP"""
+  weather.get_weather().start()
+  hddtemp.get_hddtemp().start()
+  cpu.get_cpu().start()
+  ram.get_mem().start()
+  battery.get_battery().start()
+  mpd_mod.get_mpd().start()
+  dmesg.get_dmesg().start()
+  while True:
+    alarm(1)
+    try:
+      p=SysStdin.readline()
+      p=p.replace('\n','')
+      data=get_data(p)
+      child_stdin.write(data)
+      continue
+    except:
+      data=get_data(p)
+      child_stdin.write(data)
+      continue
+
+if __name__ == "__main__":
+  main()

@@ -16,7 +16,7 @@ class get_hddtemp(Thread):
       s.close()
       temp=buf[len(buf)-5:len(buf)-3]
       try:
-        percentage=int(temp)*2
+        percentage=100*(int(temp)-20)/40
       except ValueError:
         continue
       HDDTEMP=" ^i(/home/master/.icons/dzen2/temp.xbm) "+set_measure_color(percentage)+temp+set_normal_color()+"C"
