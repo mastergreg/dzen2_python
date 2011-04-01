@@ -1,0 +1,35 @@
+INSTALL
+
+add the executable in your PATH [personally i use ~/bin with a link to dzen_python]
+
+copy the sample config file dzen_pythonrc to ~/.dzen_pythonrc
+add this to your ~/.xmonad/xmonad.hs
+
+
+
+pythonDzenPP :: PP
+pythonDzenPP = defaultPP {
+  ppCurrent  = dzenColor "#000001" "#000010" . pad
+    , ppVisible  = dzenColor "#000002" "#000020" . pad
+    , ppHidden   = dzenColor "#000003" "#000030" . pad
+    , ppHiddenNoWindows = dzenColor "#000004" "#000040"
+    , ppUrgent   = dzenColor "#000005" "#000050"
+    , ppWsSep    = ""
+    , ppSep      = ""
+    , ppLayout   = dzenColor "#000007" "#000070" .
+    , ppTitle    = dzenColor "#000006" "#000060". shorten 20
+}
+
+
+
+
+and here is a sample of my main function 
+
+main = do
+   xmproc <- spawnPipe "killall dzen_python; dzen_python"
+   xmonad $ withUrgencyHook  NoUrgencyHook defaults {
+       logHook   = dynamicLogWithPP $ pythonDzenPP {
+           ppOutput = hPutStrLn xmproc
+         }
+ }
+
