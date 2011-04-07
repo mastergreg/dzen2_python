@@ -48,7 +48,7 @@ def main():
 
   """LAUNCH DZEN"""
 
-  proc = Popen('dzen2 -y '+str(int(dzen_size.SCREEN_HEIGHT)-14)+' -w '+dzen_size.DZEN_SIZE+' -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -fn '+FONT, 
+  proc = Popen('dzen2 -w '+dzen_size.DZEN_SIZE+' -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -fn '+FONT, 
                           shell=True, 
                           stdin=PIPE
                           )
