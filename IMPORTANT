@@ -1,0 +1,2 @@
+if you do not require a module disable it from the configuration
+Simply delete it from RUN_ORDER in ~/.dzen_pythonrc 
