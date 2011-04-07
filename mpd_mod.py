@@ -19,4 +19,5 @@ class get_mpd(Thread):
         SONG=' ^i(/home/master/.icons/dzen2/music.xbm)'+str(client.currentsong()['artist'])+" - "+str(client.currentsong()['title'])
       except SocketError:
         host=HOSTS[1]
+        SONG=' ^i(/home/master/.icons/dzen2/music.xbm)'+'No MPD'
         continue
