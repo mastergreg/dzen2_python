@@ -54,7 +54,7 @@ def main():
                           )
   (child_stdin, child_stdout) = (proc.stdin, proc.stdout)
   signal(SIGALRM,handler)
-
+  p=""
 
   """MAIN LOOP"""
   weather.get_weather().start()
