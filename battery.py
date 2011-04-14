@@ -7,16 +7,19 @@ class get_battery(Thread):
   def run(self):
     global BATTERY
     while True:
-      f1 = open('/sys/class/power_supply/CMB1/charge_full','r')
-      f2 = open('/sys/class/power_supply/CMB1/charge_now','r')
-      full=float(f1.readline())
-      current=float(f2.readline())
-      percent=int(current*100/full)
-      if percent<9:
-        battery_notification().start()
-      BATTERY=" ^i(/home/master/.icons/dzen2/power-bat.xbm)"+set_measure_color(100-percent)+str(percent)+set_normal_color()+"%"
-      f1.close()
-      f2.close()
+      try:
+        f1 = open('/sys/class/power_supply/BAT0/charge_full','r')
+        f2 = open('/sys/class/power_supply/BAT0/charge_now','r')
+        full=float(f1.readline())
+        current=float(f2.readline())
+        percent=int(current*100/full)
+        if percent<9:
+          battery_notification().start()
+        BATTERY=" ^i(/home/master/.icons/dzen2/power-bat.xbm)"+set_measure_color(100-percent)+str(percent)+set_normal_color()+"%"
+        f1.close()
+        f2.close()
+      except:
+        BATTERY=" NoBat"
       sleep(60)
 class battery_notification(Thread):
   def run(self):
