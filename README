@@ -16,7 +16,7 @@ pythonDzenPP = defaultPP {
     , ppUrgent   = dzenColor "#000005" "#000050"
     , ppWsSep    = ""
     , ppSep      = ""
-    , ppLayout   = dzenColor "#000007" "#000070" .
+    , ppLayout   = dzenColor "#000007" "#000070" 
     , ppTitle    = dzenColor "#000006" "#000060". shorten 20
 }
 
