@@ -33,3 +33,6 @@ main = do
          }
  }
 
+
+
+extract the dzen2 tarball to your prefered icons location (sth like /home/YOURNAME/.icons/dzen2) and edit the ICON_PATH varible in the config file (~/.dzen_pythonrc)

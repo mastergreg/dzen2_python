@@ -1,5 +1,5 @@
 from threading import Thread
-from config_mod import CPU_SLEEP
+from config_mod import CPU_SLEEP,ICON_PATH
 from colors import set_measure_color, set_normal_color 
 from time  import sleep
 from psutil import cpu_percent
@@ -29,5 +29,5 @@ class get_cpu(Thread):
       fpercentage=100*(freq-MIN_FREQ)/(MAX_FREQ-MIN_FREQ)
       cpu_frequencies=" @ "+set_measure_color(fpercentage)+str(round(freq/1000.,1))+set_normal_color()+"GHz"
       percentage=round(cpu_percent(), 1)
-      CPU=" ^i(/home/master/.icons/dzen2/cpu.xbm) "+set_measure_color(percentage)+str(percentage)+set_normal_color()+"%"+cpu_frequencies
+      CPU=" ^i("+ICON_PATH+"/cpu.xbm) "+set_measure_color(percentage)+str(percentage)+set_normal_color()+"%"+cpu_frequencies
       sleep(int(CPU_SLEEP))

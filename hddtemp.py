@@ -1,5 +1,5 @@
 from threading import Thread
-from config_mod import HDDTEMP_SLEEP
+from config_mod import HDDTEMP_SLEEP,ICON_PATH
 from socket import socket, AF_INET,SOCK_STREAM
 from colors import set_normal_color, set_measure_color
 from time import sleep
@@ -19,6 +19,6 @@ class get_hddtemp(Thread):
         percentage=100*(int(temp)-20)/40
       except ValueError:
         continue
-      HDDTEMP=" ^i(/home/master/.icons/dzen2/temp.xbm) "+set_measure_color(percentage)+temp+set_normal_color()+"C"
+      HDDTEMP=" ^i("+ICON_PATH+"/temp.xbm) "+set_measure_color(percentage)+temp+set_normal_color()+"C"
       sleep(int(HDDTEMP_SLEEP))
 

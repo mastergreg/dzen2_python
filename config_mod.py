@@ -60,6 +60,10 @@ PORT = config.get('main_config','MPD_PORT')
 SCREEN_PERCENTAGE = config.get('main_config','SCREEN_PERCENTAGE')
 
 
+
+"""ICONS"""
+ICON_PATH=config.get('main_config','ICON_PATH')
+
 findandreplace=[
   ['#000001',CURRENT_TEXT_COLOR]
 , ['#000010',CURRENT_BACKGROUND_COLOR]
