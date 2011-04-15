@@ -1,4 +1,13 @@
+DEPENDS ON
+
+dzen2
+python
+python-psutil
+python-mpd
+hddtemp
+
 INSTALL
+
 
 add the executable in your PATH [personally i use ~/bin with a link to dzen_python]
 

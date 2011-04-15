@@ -53,3 +53,4 @@ MPD_PORT = 6600
 
 
 SCREEN_PERCENTAGE = 0.9
+ICON_PATH = /home/YOURNAME/.icons/dzen2
