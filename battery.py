@@ -2,14 +2,15 @@ from threading import Thread
 from time import sleep
 from subprocess import Popen,PIPE
 from colors import set_measure_color,set_normal_color
+from config import BATTERY_NAME
 BATTERY=""
 class get_battery(Thread):
   def run(self):
     global BATTERY
     while True:
       try:
-        f1 = open('/sys/class/power_supply/BAT0/charge_full','r')
-        f2 = open('/sys/class/power_supply/BAT0/charge_now','r')
+        f1 = open('/sys/class/power_supply/'+BATTERY_NAME+'/charge_full','r')
+        f2 = open('/sys/class/power_supply/'+BATTERY_NAME+'/charge_now','r')
         full=float(f1.readline())
         current=float(f2.readline())
         percent=int(current*100/full)
