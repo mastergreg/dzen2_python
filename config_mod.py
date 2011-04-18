@@ -63,7 +63,7 @@ SCREEN_PERCENTAGE = config.get('main_config','SCREEN_PERCENTAGE')
 
 """ICONS"""
 ICON_PATH=config.get('main_config','ICON_PATH')
-BATTERY_NAME=config.get('main_config',"BATTREY_NAME')
+BATTERY_NAME=config.get('main_config','BATTERY_NAME')
 findandreplace=[
   ['#000001',CURRENT_TEXT_COLOR]
 , ['#000010',CURRENT_BACKGROUND_COLOR]

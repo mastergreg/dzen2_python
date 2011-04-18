@@ -2,7 +2,7 @@ from threading import Thread
 from time import sleep
 from subprocess import Popen,PIPE
 from colors import set_measure_color,set_normal_color
-from config import BATTERY_NAME
+from config_mod import BATTERY_NAME
 BATTERY=""
 class get_battery(Thread):
   def run(self):
