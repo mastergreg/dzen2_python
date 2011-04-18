@@ -26,6 +26,22 @@ class get_battery(Thread):
         BATTERY=" ^i(/home/master/.icons/dzen2/power-bat.xbm)"+set_measure_color(100-percent)+str(percent)+set_normal_color()+"%"
         f1.close()
         f2.close()
-      except:
-        BATTERY=" NoBat"
+      except IOError:
+        try:
+          f1=open('/proc/acpi/battery/'+BATTERY_NAME+'/state','r')
+#          f2=open('/proc/acpi/battery/'+BATTERY_NAME+'/state','r')
+          f1lines=f1.readlines()
+          for i in f1lines:
+            if i.startswith("present rate"):
+              rate=i.split()[2]
+            if i.startswith("remaining capacity"):
+              remaining=i.split()[2]
+          time_left=float(remaining)/float(rate)
+          hours=int(time_left)
+          minutes=int((time_left-hours)*60)
+          BATTERY=" ^i(/home/master/.icons/dzen2/power-bat.xbm)"+str(hours)+":"+str(minutes)
+          f1.close()
+#          f2.close()
+        except:
+          BATTERY=" NoBat"
       sleep(60)
