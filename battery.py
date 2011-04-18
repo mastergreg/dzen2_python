@@ -3,7 +3,7 @@ from time import sleep
 from subprocess import Popen,PIPE
 from colors import set_measure_color,set_normal_color
 from config_mod import BATTERY_NAME
-from pynotify import Notification,URGENCY_NORMAL,EXPIRES_NEVER
+from pynotify import init as notiftinit,Notification,URGENCY_NORMAL,EXPIRES_NEVER
 BATTERY=""
 class get_battery(Thread):
   def run(self):
@@ -18,6 +18,7 @@ class get_battery(Thread):
         if percent>100:
           percent=100
         elif percent<9:
+          notiftinit("dzen_python")
           n = pynotify.Notification("Battery Status", "Low Battery", "Your Battery Is Low")
           n.set_urgency(pynotify.URGENCY_NORMAL)
           n.set_timeout(pynotify.EXPIRES_NEVER)
