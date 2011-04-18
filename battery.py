@@ -14,7 +14,9 @@ class get_battery(Thread):
         full=float(f1.readline())
         current=float(f2.readline())
         percent=int(current*100/full)
-        if percent<9:
+        if percent>100:
+          percent=100
+        elif percent<9:
           battery_notification().start()
         BATTERY=" ^i(/home/master/.icons/dzen2/power-bat.xbm)"+set_measure_color(100-percent)+str(percent)+set_normal_color()+"%"
         f1.close()
