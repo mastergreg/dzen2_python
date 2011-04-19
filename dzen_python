@@ -5,7 +5,7 @@ from subprocess import Popen,PIPE
 from sys import stdin as SysStdin
 from os import system
 from re import sub
-from config_mod import replace_p,TEXT_COLOR,BACKGROUND_COLOR,FONT,TIME_COLOR, TIME_BACKGROUND_COLOR, SCREEN_PERCENTAGE,RUN_ORDER 
+from config_mod import replace_p, TEXT_COLOR, BACKGROUND_COLOR, FONT, TIME_COLOR, TIME_BACKGROUND_COLOR, SCREEN_PERCENTAGE, RUN_ORDER 
 import mpd_mod
 import weather
 import cpu
@@ -15,7 +15,7 @@ import battery
 import time_mod
 import dmesg
 import dzen_size
-
+import statusnet
 
 
 
@@ -31,7 +31,9 @@ def get_data(p):
               'weather':weather.WEATHER_COND , 
               'mpd_song' : mpd_mod.SONG ,
               'break_line':'\n',
-              'dmesg' : dmesg.DMESG}
+              'dmesg' : dmesg.DMESG
+			  'statusnet': statusnet.STATUSNET}
+			
   for i in RUN_ORDER:
     data_list.append(data_dict[i])
   return '^tw()'+''.join(data_list)
@@ -64,6 +66,7 @@ def main():
   battery.get_battery().start()
   mpd_mod.get_mpd().start()
   dmesg.get_dmesg().start()
+	statusnet.get_statusnet().start() 
   while True:
     alarm(1)
     try:
