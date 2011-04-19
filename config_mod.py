@@ -65,6 +65,15 @@ SCREEN_PERCENTAGE = config.get('main_config','SCREEN_PERCENTAGE')
 """ICONS"""
 ICON_PATH=config.get('main_config','ICON_PATH')
 BATTERY_NAME=config.get('main_config','BATTERY_NAME')
+
+STATUSNET_URL=config.get('main_config','STATUSNET_URL')
+
+STATUSNET_COLOR=config.get('main_config','STATUSNET_COLOR')
+
+STATUSNET_USER_COLOR=config.get('main_config','STATUSNET_USER_COLOR')
+
+STATUSNET_BACKGROUND_COLOR=config.get('main_config','STATUSNET_BACKGROUND_COLOR')
+
 findandreplace=[
   ['#000001',CURRENT_TEXT_COLOR]
 , ['#000010',CURRENT_BACKGROUND_COLOR]

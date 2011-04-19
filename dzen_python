@@ -31,8 +31,8 @@ def get_data(p):
               'weather':weather.WEATHER_COND , 
               'mpd_song' : mpd_mod.SONG ,
               'break_line':'\n',
-              'dmesg' : dmesg.DMESG
-			  'statusnet': statusnet.STATUSNET}
+              'dmesg' : dmesg.DMESG,
+			        'statusnet': statusnet.STATUSNET}
 			
   for i in RUN_ORDER:
     data_list.append(data_dict[i])
@@ -66,7 +66,8 @@ def main():
   battery.get_battery().start()
   mpd_mod.get_mpd().start()
   dmesg.get_dmesg().start()
-	statusnet.get_statusnet().start() 
+  statusnet.get_statusnet().start() 
+  
   while True:
     alarm(1)
     try:
