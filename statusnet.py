@@ -23,7 +23,7 @@ class get_statusnet(threading.Thread):
 					for j in range(0,len(text)):
 						status_text = ' '+set_colors(STATUSNET_COLOR,STATUSNET_BACKGROUND_COLOR)+text[i:]
 						STATUSNET = status_user + status_text
-					sleep(1)
+					sleep(5)
 				continue		
 			except (urllib2.URLError):
 				STATUSNET=' '+set_colors(STATUSNET_COLOR,STATUSNET_BACKGROUND_COLOR)+"Cannot connect"+set_normal_color()
