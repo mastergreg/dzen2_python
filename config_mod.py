@@ -74,6 +74,15 @@ STATUSNET_USER_COLOR=config.get('main_config','STATUSNET_USER_COLOR')
 
 STATUSNET_BACKGROUND_COLOR=config.get('main_config','STATUSNET_BACKGROUND_COLOR')
 
+GMAIL_BACKGROUND_COLOR=config.get('main_config','GMAIL_BACKGROUND_COLOR')
+GMAIL_COLOR=config.get('main_config','GMAIL_COLOR')
+GMAIL_UNREAD_COLOR=config.get('main_config','GMAIL_UNREAD_COLOR')
+
+GMAIL_USERNAME=config.get('main_config','GMAIL_USERNAME')
+
+GMAIL_PASSWORD=config.get('main_config','GMAIL_PASSWORD')
+
+
 findandreplace=[
   ['#000001',CURRENT_TEXT_COLOR]
 , ['#000010',CURRENT_BACKGROUND_COLOR]

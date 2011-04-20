@@ -55,3 +55,18 @@ MPD_PORT = 6600
 SCREEN_PERCENTAGE = 0.9
 ICON_PATH = /home/YOURNAME/.icons/dzen2
 BATTERY_NAME = BAT0
+
+STATUSNET_URL = "http://status.foss.ntua.gr/index.php/api/statuses/public_timeline.json?count=3"
+STATUSNET_COLOR = #00ff00
+STATUSNET_USER_COLOR = #ff0000
+STATUSNET_BACKGROUND_COLOR = #000000
+
+
+GMAIL_BACKGROUND_COLOR= #000000
+GMAIL_COLOR= #5555ff
+GMAIL_UNREAD_COLOR= #ff0000
+
+
+GMAIL_USERNAME=my_gmail_username
+GMAIL_PASSWORD=my_super_gmail_pass
+
