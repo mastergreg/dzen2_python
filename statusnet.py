@@ -19,7 +19,7 @@ class get_statusnet(threading.Thread):
         #			status = simplejson.load(urllib2.urlopen(STATUSNET_URL))
         #			STATUSNET = status[1]['user']['name']
         for i in range(0,3):
-          status_user = ' '+set_colors(STATUSNET_COLOR,STATUSNET_BACKGROUND_COLOR)+'StatusNet [' + str(i+1) + '/3]: ' +set_colors(STATUSNET_USER_COLOR,STATUSNET_BACKGROUND_COLOR)+status[i]['user']['name']
+          status_user = ' '+set_colors(STATUSNET_COLOR,STATUSNET_BACKGROUND_COLOR)+'StatusNet [' + str(i+1) + '/3]: ' +set_colors(STATUSNET_USER_COLOR,STATUSNET_BACKGROUND_COLOR)+status[i]['user']['screen_name']
           text = status[i]['text']
           text = text.decode('utf-8')
           text = text.encode('iso-8859-7', 'replace')
