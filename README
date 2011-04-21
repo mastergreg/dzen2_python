@@ -35,7 +35,7 @@ pythonDzenPP = defaultPP {
 and here is a sample of my main function 
 
 main = do
-   xmproc <- spawnPipe "killall dzen_python; dzen_python"
+   xmproc <- spawnPipe "killall dzen2; dzen_python"
    xmonad $ withUrgencyHook  NoUrgencyHook defaults {
        logHook   = dynamicLogWithPP $ pythonDzenPP {
            ppOutput = hPutStrLn xmproc
