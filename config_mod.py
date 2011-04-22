@@ -50,6 +50,7 @@ WEATHER_BACKGROUND_COLOR=config.get('main_config','WEATHER_BACKGROUND_COLOR')
 """TEMPERATURE STUFF"""
 HDDTEMP_SLEEP=config.get('main_config','HDDTEMP_SLEEP')
 """SYSTEM PERFORMANCE STUFF"""
+CPU_BAR_COLOR=config.get('main_config','CPU_BAR_COLOR')
 CPU_SLEEP=config.get('main_config','CPU_SLEEP')
 RAM_SLEEP=config.get('main_config','RAM_SLEEP')
 
