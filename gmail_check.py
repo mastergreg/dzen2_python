@@ -16,6 +16,8 @@ class gmail(Thread):
         status,count=srv.search(None,'UnSeen')
       #unseen= len(c.get_inbox_conversations(is_unread=True))
         UNREAD=" "+set_colors(GMAIL_UNREAD_COLOR,GMAIL_BACKGROUND_COLOR)+str(len(count[0][1:].split()))+" "+set_colors(GMAIL_COLOR,GMAIL_BACKGROUND_COLOR)+"Emails"+set_normal_color()
+        srv.close()
+        srv.logout()
         sleep(60)
       except:
         sleep(60)
