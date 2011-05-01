@@ -70,3 +70,4 @@ GMAIL_UNREAD_COLOR= #ff0000
 GMAIL_USERNAME=my_gmail_username
 GMAIL_PASSWORD=my_super_gmail_pass
 
+CPU_BAR_COLOR = #999999
