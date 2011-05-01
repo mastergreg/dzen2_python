@@ -14,10 +14,10 @@ class get_mpd(Thread):
       sleep(1)
       try:  
         client.connect(**CON_ID)
-        SONG=' ^i(/home/master/.icons/dzen2/music.xbm)'+str(client.currentsong()['artist'])+" - "+str(client.currentsong()['title'])
+        SONG=' ^i(/home/master/.icons/dzen2/music.xbm) '+str(client.currentsong()['artist'])+" - "+str(client.currentsong()['title'])
       except ConnectionError:
-        SONG=' ^i(/home/master/.icons/dzen2/music.xbm)'+str(client.currentsong()['artist'])+" - "+str(client.currentsong()['title'])
+        SONG=' ^i(/home/master/.icons/dzen2/music.xbm) '+str(client.currentsong()['artist'])+" - "+str(client.currentsong()['title'])
       except SocketError:
         host=HOSTS[1]
-        SONG=' ^i(/home/master/.icons/dzen2/music.xbm)'+'No MPD'
+        SONG=' ^i(/home/master/.icons/dzen2/music.xbm) '+'No MPD'
         continue

@@ -3,7 +3,7 @@ from config_mod import CPU_SLEEP,ICON_PATH,CPU_BAR_COLOR
 from colors import set_measure_color, set_normal_color , set_color
 from time  import sleep
 from psutil import cpu_percent
-
+from math import ceil
   
 CPU=""
 class get_cpu(Thread):
@@ -29,5 +29,5 @@ class get_cpu(Thread):
       fpercentage=100*(freq-MIN_FREQ)/(MAX_FREQ-MIN_FREQ)
       cpu_frequencies=" @ "+set_measure_color(fpercentage)+str(round(freq/1000.,1))+set_normal_color()+"GHz"
       percentage=round(cpu_percent(), 1)
-      CPU=" ^i("+ICON_PATH+"/cpu.xbm) "+set_measure_color(percentage)+"^r("+str(percentage/2)+"x8)"+set_color(CPU_BAR_COLOR)+"^r("+str(50-percentage/2)+"x8) "+set_normal_color()+"%"+cpu_frequencies
+      CPU=" ^i("+ICON_PATH+"/cpu.xbm) "+set_measure_color(percentage)+"^r("+str(ceil(float(percentage/2)))+"x8)"+set_color(CPU_BAR_COLOR)+"^r("+str(50-ceil(float(percentage/2)))+"x8)"+set_normal_color()+cpu_frequencies
       sleep(int(CPU_SLEEP))
