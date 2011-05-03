@@ -30,7 +30,7 @@ TIME_COLOR = orange
 TIME_BACKGROUND_COLOR = black 
 
 
-RUN_ORDER=xmonad,cpu,ram,hddtemp,battery,time,weather,mpd_song,break_line
+RUN_ORDER=xmonad,cpu,ram,hddtemp,battery,time,weather,mpd_song,gmail,statusnet,break_line
 
 
 MEASURE_NORMAL_COLOR = #0033ff
