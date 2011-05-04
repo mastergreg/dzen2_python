@@ -30,7 +30,7 @@ TIME_COLOR = orange
 TIME_BACKGROUND_COLOR = black 
 
 
-RUN_ORDER=xmonad,cpu,ram,hddtemp,battery,time,weather,mpd_song,gmail,statusnet,break_line
+RUN_ORDER=xmonad,cpu,ram,hddtemp,battery,time,weather,torrentflux,mpd_song,gmail,statusnet,break_line
 
 
 MEASURE_NORMAL_COLOR = #0033ff
@@ -71,3 +71,7 @@ GMAIL_USERNAME=my_gmail_username
 GMAIL_PASSWORD=my_super_gmail_pass
 
 CPU_BAR_COLOR = #999999
+
+TF_ADD=torrentflux_address
+TF_USER=torrentflux_username
+TF_PASS=torrentflux_password

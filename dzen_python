@@ -17,7 +17,7 @@ import dmesg
 import dzen_size
 import statusnet
 import gmail_check
-
+import torrentflux
 
 """METHODS AND FUNCTIONS USED"""
 def get_data(p):
@@ -33,6 +33,7 @@ def get_data(p):
               'break_line':'\n',
               'dmesg' : dmesg.DMESG,
               'gmail' : gmail_check.UNREAD,
+              'torrentflux' : torrentflux.SPEEDS,
 			        'statusnet': statusnet.STATUSNET}
 			
   for i in RUN_ORDER:
@@ -69,6 +70,7 @@ def main():
   dmesg.get_dmesg().start()
   statusnet.get_statusnet().start() 
   gmail_check.gmail().start()
+  torrentflux.get_tflux().start()
 
   while True:
     alarm(1)

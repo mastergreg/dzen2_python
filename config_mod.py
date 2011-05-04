@@ -83,6 +83,9 @@ GMAIL_USERNAME=config.get('main_config','GMAIL_USERNAME')
 
 GMAIL_PASSWORD=config.get('main_config','GMAIL_PASSWORD')
 
+TF_ADD=config.get('main_config','TF_ADD')
+TF_USER=config.get('main_config','TF_USER')
+TF_PASS=config.get('main_config','TF_PASS')
 
 findandreplace=[
   ['#000001',CURRENT_TEXT_COLOR]
