@@ -1,9 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 from signal import signal, alarm, SIGALRM
 from subprocess import Popen,PIPE
-from sys import stdin as SysStdin
-from os import system
+from sys import stdin as SysStdin,stdout as SysStdout,stderr as SysStderr
+from os import system,getenv
 from re import sub
 from config_mod import replace_p, TEXT_COLOR, BACKGROUND_COLOR, FONT, TIME_COLOR, TIME_BACKGROUND_COLOR, SCREEN_PERCENTAGE, RUN_ORDER 
 import mpd_mod
@@ -18,7 +18,11 @@ import dzen_size
 import statusnet
 import gmail_check
 import torrentflux
-
+logfile = open(getenv('HOME')+'/.dzen_python.log',"a")
+SysStdout = logfile
+errorfile = open(getenv('HOME')+'/.dzen_python.errors',"a")
+SysStderr = errorfile 
+print "hallo world"
 """METHODS AND FUNCTIONS USED"""
 def get_data(p):
   data_list=[]

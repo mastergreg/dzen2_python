@@ -24,11 +24,11 @@ class get_tflux(Thread):
       mytext=mytext.split()
       for i in range(len(mytext)):
         if mytext[i]=="Download":
-          D_SPEED=mytext[i+2]+mytext[i+3][0]
+          D_SPEED=mytext[i+2][:len(mytext[i+2])-3]+mytext[i+3][0]
           break
       for i in range(len(mytext)):
         if mytext[i]=="Upload" and mytext[i+1]=='Speed:':
-          U_SPEED=mytext[i+2]+mytext[i+3][0]
+          U_SPEED=mytext[i+2][:len(mytext[i+2])-3]+mytext[i+3][0]
           break
       SPEEDS=' D '+D_SPEED+' U '+U_SPEED
       sleep(1)
