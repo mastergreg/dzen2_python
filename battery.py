@@ -1,6 +1,5 @@
 from threading import Thread
 from time import sleep
-from subprocess import Popen,PIPE
 from colors import set_measure_color,set_normal_color
 from config_mod import BATTERY_NAME, ICON_PATH
 from pynotify import init as notiftinit,Notification,URGENCY_NORMAL,EXPIRES_NEVER

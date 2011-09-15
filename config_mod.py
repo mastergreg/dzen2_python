@@ -1,5 +1,4 @@
 from ConfigParser import RawConfigParser
-from time import sleep
 from os import getenv
 config = RawConfigParser()
 config.readfp(open(getenv('HOME')+'/.dzen_pythonrc'))

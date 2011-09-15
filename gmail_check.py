@@ -1,8 +1,8 @@
 from time import sleep
 from threading import Thread
 from config_mod import GMAIL_BACKGROUND_COLOR,GMAIL_COLOR,GMAIL_UNREAD_COLOR,GMAIL_USERNAME,GMAIL_PASSWORD,ICON_PATH
-from colors import *
-import imaplib
+from colors import set_colors,set_normal_color
+from imaplib import IMAP4_SSL
 UNREAD=" NoConnection"
 def unread():
   return UNREAD
@@ -11,7 +11,7 @@ class get_gmail_check(Thread):
     global UNREAD
     while True:
       try:
-        srv = imaplib.IMAP4_SSL("imap.gmail.com")
+        srv = IMAP4_SSL("imap.gmail.com")
         count=[]
         srv.login(GMAIL_USERNAME,GMAIL_PASSWORD)
         srv.select()

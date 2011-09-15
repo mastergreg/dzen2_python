@@ -19,36 +19,36 @@ def initialize():
   global cpu,ram,hddtemp,battery,time_mod,weather,mpd_mod,dmesg,gmail_check,cputemp,statusnet
 
   if 'cpu' in RUN_ORDER:
-    cpu=__import__('cpu')
+    cpu=__import__('cpu',globals(),locals(),['cpu','get_cpu'],-1)
     cpu.get_cpu().start()
   if 'ram' in RUN_ORDER:
-    ram=__import__('ram')
+    ram=__import__('ram',globals(),locals(),['ram','get_mem'],-1)
     ram.get_mem().start()
   if 'hddtemp' in RUN_ORDER:
-    hddtemp=__import__('hddtemp')
+    hddtemp=__import__('hddtemp',globals(),locals(),['hddtemp','get_hddtemp'],-1)
     hddtemp.get_hddtemp().start()
   if 'battery' in RUN_ORDER:
-    battery=__import__('battery')
+    battery=__import__('battery',globals(),locals(),['cpu','get_battery'],-1)
     battery.get_battery().start()
   if 'time' in RUN_ORDER:
-    time_mod=__import__('time_mod')
+    time_mod=__import__('time_mod',globals(),locals(),['NOW'],-1)
   if 'weather' in RUN_ORDER:
-    weather=__import__('weather')
+    weather=__import__('weather',globals(),locals(),['weather_cond','get_weather'],-1)
     weather.get_weather().start()
   if 'dmesg' in RUN_ORDER:
-    dmesg=__import__('dmesg')
+    dmesg=__import__('dmesg',globals(),locals(),['dmesg','get_dmesg'],-1)
     dmesg.get_dmesg().start()
   if 'gmail' in RUN_ORDER:
-    gmail_check=__import__('gmail_check')
+    gmail_check=__import__('gmail_check',globals(),locals(),['unread','get_gmail_check'],-1)
     gmail_check.get_gmail_check().start()
   if 'cputemp' in RUN_ORDER:
-    cputemp=__import__('cputemp')
+    cputemp=__import__('cputemp',globals(),locals(),['cputemp','get_cputemp'],-1)
     cputemp.get_cputemp().start()
   if 'statusnet' in RUN_ORDER:
-    statusnet=__import__('statusnet')
+    statusnet=__import__('statusnet',globals(),locals(),['statusnet','get_statusnet'],-1)
     statusnet.get_statusnet().start()
   if 'mpd_song' in RUN_ORDER:
-    mpd_mod=__import__('mpd_mod')
+    mpd_mod=__import__('mpd_mod',globals(),locals(),['song','get_mpd'],-1)
     mpd_mod.get_mpd().start()
 			
 
