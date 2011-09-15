@@ -17,6 +17,7 @@ import dmesg
 import dzen_size
 import statusnet
 import gmail_check
+import cputemp
 #import torrentflux
 logfile = open(getenv('HOME')+'/.dzen_python.log',"a")
 SysStdout = logfile
@@ -37,6 +38,7 @@ def get_data(p):
               'dmesg' : dmesg.DMESG,
               'gmail' : gmail_check.UNREAD,
 #              'torrentflux' : torrentflux.SPEEDS,
+              'cputemp': cputemp.CPUTEMP,
 			        'statusnet': statusnet.STATUSNET}
 			
   for i in RUN_ORDER:
@@ -73,6 +75,7 @@ def main():
   dmesg.get_dmesg().start()
   statusnet.get_statusnet().start() 
   gmail_check.gmail().start()
+  cputemp.get_cpuTemp().start()
   #torrentflux.get_tflux().start()
 
   while True:
