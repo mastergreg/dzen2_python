@@ -1,4 +1,39 @@
 from config_mod import MEASURE_NORMAL_COLOR, MEASURE_MEDI_COLOR, MEASURE_HIGH_COLOR
+def parse_rgb(color):
+  r = int(int(color[1:3],16)*100/256.)
+  g = int(int(color[3:5],16)*100/256.)
+  b = int(int(color[5:7],16)*100/256.)
+  return (r,g,b)
+
+def unparse_rgb((newR,newG,newB)):
+  r = "%X" % int(newR*256/100.)
+  if len(r)==1:
+    r="0"+r
+  g = "%X" % int(newG*256/100.)
+  if len(g)==1:
+    g="0"+g
+  b = "%X" % int(newB*256/100.)
+  if len(b)==1:
+    b="0"+b
+  return "#"+r+g+b
+
+def mix_colors((lowR,lowG,lowB),(highR,highG,highB),perc):
+  lowPerc = 100 - perc
+  newR = (lowR*lowPerc+highR*perc)/100.
+  newG = (lowG*lowPerc+highG*perc)/100.
+  newB = (lowB*lowPerc+highB*perc)/100.
+  return unparse_rgb((newR,newG,newB))
+
+  
+
+def set_gradient_color(percentage):
+  if percentage < 50 :
+    colorMix = mix_colors(parse_rgb(MEASURE_NORMAL_COLOR),parse_rgb(MEASURE_MEDI_COLOR),percentage*2)
+  else:
+    colorMix = mix_colors(parse_rgb(MEASURE_MEDI_COLOR),parse_rgb(MEASURE_HIGH_COLOR),(percentage-50)*2)
+  return '^fg('+colorMix+')'
+
+
 def set_color(color):
   return '^fg('+color+')^bg()'
 def set_colors(fbcolor,bgcolor):
