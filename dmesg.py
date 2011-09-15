@@ -3,6 +3,8 @@ from time import sleep
 from subprocess import Popen,PIPE
 
 DMESG=""
+def dmesg():
+  return DMESG
 class get_dmesg(Thread):
   def run(self):
     global DMESG

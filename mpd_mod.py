@@ -4,6 +4,9 @@ from socket import error as SocketError
 from mpd import MPDClient, ConnectionError
 from config_mod import HOSTS , PORT
 SONG=""
+
+def song():
+  return SONG
 class get_mpd(Thread):
   def run (self):
     global HOSTS,PORT,CON_ID,SONG 

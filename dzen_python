@@ -6,50 +6,80 @@ from sys import stdin as SysStdin,stdout as SysStdout,stderr as SysStderr
 from os import system,getenv
 from re import sub
 from config_mod import replace_p, TEXT_COLOR, BACKGROUND_COLOR, FONT, TIME_COLOR, TIME_BACKGROUND_COLOR, SCREEN_PERCENTAGE, RUN_ORDER 
-import mpd_mod
-import weather
-import cpu
-import ram
-import hddtemp
-import battery
-import time_mod
-import dmesg
 import dzen_size
-import statusnet
-import gmail_check
-import cputemp
 #import torrentflux
 logfile = open(getenv('HOME')+'/.dzen_python.log',"a")
 SysStdout = logfile
 errorfile = open(getenv('HOME')+'/.dzen_python.errors',"a")
 SysStderr = errorfile 
-"""METHODS AND FUNCTIONS USED"""
+
+
+
+def initialize():
+  global cpu,ram,hddtemp,battery,time_mod,weather,mpd_mod,dmesg,gmail_check,cputemp,statusnet
+
+  if 'cpu' in RUN_ORDER:
+    cpu=__import__('cpu')
+    cpu.get_cpu().start()
+  if 'ram' in RUN_ORDER:
+    ram=__import__('ram')
+    ram.get_mem().start()
+  if 'hddtemp' in RUN_ORDER:
+    hddtemp=__import__('hddtemp')
+    hddtemp.get_hddtemp().start()
+  if 'battery' in RUN_ORDER:
+    battery=__import__('battery')
+    battery.get_battery().start()
+  if 'time' in RUN_ORDER:
+    time_mod=__import__('time_mod')
+  if 'weather' in RUN_ORDER:
+    weather=__import__('weather')
+    weather.get_weather().start()
+  if 'dmesg' in RUN_ORDER:
+    dmesg=__import__('dmesg')
+    dmesg.get_dmesg().start()
+  if 'gmail' in RUN_ORDER:
+    gmail_check=__import__('gmail_check')
+    gmail_check.get_gmail_check().start()
+  if 'cputemp' in RUN_ORDER:
+    cputemp=__import__('cputemp')
+    cputemp.get_cputemp().start()
+  if 'statusnet' in RUN_ORDER:
+    statusnet=__import__('statusnet')
+    statusnet.get_statusnet().start()
+  if 'mpd_song' in RUN_ORDER:
+    mpd_mod=__import__('mpd_mod')
+    mpd_mod.get_mpd().start()
+			
+
 def get_data(p):
   data_list=[]
-  data_dict={ 'xmonad': replace_p(p),
-              'cpu' : cpu.CPU,
-              'ram' : ram.RAM,
-              'hddtemp' : hddtemp.HDDTEMP,
-              'battery' : battery.BATTERY,
-              'time' : time_mod.NOW(),
-              'weather':weather.WEATHER_COND , 
-              'mpd_song' : mpd_mod.SONG ,
-              'break_line':'\n',
-              'dmesg' : dmesg.DMESG,
-              'gmail' : gmail_check.UNREAD,
-#              'torrentflux' : torrentflux.SPEEDS,
-              'cputemp': cputemp.CPUTEMP,
-			        'statusnet': statusnet.STATUSNET}
+  data_dict={ 'xmonad': "replace_p(p)",
+              'cpu' : "cpu.cpu()",
+              'ram' : "ram.ram()",
+              'hddtemp' : "hddtemp.hddtemp()",
+              'battery' : "battery.battery()",
+              'time' : "time_mod.NOW()",
+              'weather':"weather.weather_cond()" , 
+              'mpd_song' : "mpd_mod.song()",
+              'dmesg' : "dmesg.dmesg()",
+              'gmail' : "gmail_check.unread()",
+#              'torrentflux' : "torrentflux.SPEEDS",
+              'cputemp': "cputemp.cputemp()",
+			        'statusnet': "statusnet.statusnet()"}
 			
   for i in RUN_ORDER:
-    data_list.append(data_dict[i])
-  return '^tw()'+''.join(data_list)
+    print i
+    j = eval(data_dict[i])
+    data_list.append(j)
+  return '^tw()'+''.join(data_list)+"\n"
 
 def handler(signum,frame):
   return
 
 
 def main():
+  initialize()
   """INNER SPACES"""
 
   SPACE_PR_SYS_DATA=" |"
@@ -66,17 +96,18 @@ def main():
   p=""
 
   """MAIN LOOP"""
-  weather.get_weather().start()
-  hddtemp.get_hddtemp().start()
-  cpu.get_cpu().start()
-  ram.get_mem().start()
-  battery.get_battery().start()
-  mpd_mod.get_mpd().start()
-  dmesg.get_dmesg().start()
-  statusnet.get_statusnet().start() 
-  gmail_check.gmail().start()
-  cputemp.get_cpuTemp().start()
-  #torrentflux.get_tflux().start()
+##  #for i in RUN_ORDER:
+##  #weather.get_weather().start()
+##  #hddtemp.get_hddtemp().start()
+##  cpu.get_cpu().start()
+##  ram.get_mem().start()
+##  battery.get_battery().start()
+##  mpd_mod.get_mpd().start()
+##  #dmesg.get_dmesg().start()
+##  statusnet.get_statusnet().start() 
+##  gmail_check.gmail().start()
+##  cputemp.get_cpuTemp().start()
+##  #torrentflux.get_tflux().start()
 
   while True:
     alarm(1)

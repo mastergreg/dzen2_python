@@ -4,7 +4,9 @@ from config_mod import GMAIL_BACKGROUND_COLOR,GMAIL_COLOR,GMAIL_UNREAD_COLOR,GMA
 from colors import *
 import imaplib
 UNREAD=" NoConnection"
-class gmail(Thread):
+def unread():
+  return UNREAD
+class get_gmail_check(Thread):
   def run(self):
     global UNREAD
     while True:

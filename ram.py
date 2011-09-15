@@ -5,6 +5,9 @@ from time import sleep
 from colors import set_normal_color, set_measure_color
 
 RAM=""
+
+def ram():
+  return RAM
 class get_mem(Thread):
   def run(self):
     global RAM,RAM_SLEEP

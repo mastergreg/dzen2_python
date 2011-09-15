@@ -6,6 +6,8 @@ from time import sleep
 HDDTEMP=""
 
 
+def hddtemp():
+  return HDDTEMP
 class get_hddtemp(Thread):
   def run(self):
     global HDDTEMP,HDDTEMP_SLEEP

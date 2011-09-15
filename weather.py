@@ -5,6 +5,9 @@ import urllib2
 from config_mod import WEATHER_BACKGROUND_COLOR, WEATHER_COLOR, WEATHER_SLEEP, REQ
 from colors import *
 WEATHER_COND=""
+
+def weather_cond():
+  return WEATHER_COND
 class get_weather(threading.Thread):
   def run ( self ):
     global WEATHER_COND,WEATHER_SLEEP,REQ

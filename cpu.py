@@ -6,6 +6,8 @@ from psutil import cpu_percent
 from math import ceil
   
 CPU=""
+def cpu():
+  return CPU
 class get_cpu(Thread):
   def run(self):
     global CPU,CPU_SLEEP

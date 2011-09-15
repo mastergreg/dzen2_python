@@ -7,7 +7,7 @@
 #
 #* Creation Date : 15-09-2011
 #
-#* Last Modified : Thu 15 Sep 2011 09:56:04 PM EEST
+#* Last Modified : Thu 15 Sep 2011 11:27:48 PM EEST
 #
 #* Created By : Greg Liras <gregliras@gmail.com>
 #
@@ -19,7 +19,9 @@ from config_mod import ICON_PATH
 from colors import set_gradient_color,set_normal_color
 
 CPUTEMP=""
-class get_cpuTemp(Thread):
+def cputemp():
+  return CPUTEMP
+class get_cputemp(Thread):
   def run(self):
     global CPUTEMP
     while True:

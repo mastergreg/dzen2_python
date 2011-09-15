@@ -20,6 +20,8 @@ class download_url(Thread):
         STATUSNET=' '+set_colors(STATUSNET_COLOR,STATUSNET_BACKGROUND_COLOR)+"Cannot connect"+set_normal_color()
         sleep(60)
 
+def statusnet():
+  return STATUSNET
 class get_statusnet(Thread):
   def run( self ):
     global STATUS,STATUSNET
