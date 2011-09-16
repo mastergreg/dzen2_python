@@ -21,6 +21,6 @@ class get_hddtemp(Thread):
         percentage=100*(int(temp)-20)/40
       except ValueError:
         continue
-      HDDTEMP=" ^i("+ICON_PATH+"/temp.xbm) "+set_measure_color(percentage)+temp+set_normal_color()+"C"
+      HDDTEMP="^i("+ICON_PATH+"/temp.xbm) "+set_measure_color(percentage)+temp+set_normal_color()+"C"
       sleep(int(HDDTEMP_SLEEP))
 

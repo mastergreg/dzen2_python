@@ -22,8 +22,8 @@ def initialize():
     cpu=__import__('cpu',globals(),locals(),['cpu','get_cpu'],-1)
     cpu.get_cpu().start()
   if 'ram' in RUN_ORDER:
-    ram=__import__('ram',globals(),locals(),['ram','get_mem'],-1)
-    ram.get_mem().start()
+    ram=__import__('ram',globals(),locals(),['ram','get_ram'],-1)
+    ram.get_ram().start()
   if 'hddtemp' in RUN_ORDER:
     hddtemp=__import__('hddtemp',globals(),locals(),['hddtemp','get_hddtemp'],-1)
     hddtemp.get_hddtemp().start()
@@ -69,10 +69,9 @@ def get_data(p):
 			        'statusnet': "statusnet.statusnet()"}
 			
   for i in RUN_ORDER:
-    print i
     j = eval(data_dict[i])
     data_list.append(j)
-  return '^tw()'+''.join(data_list)+"\n"
+  return '^tw()'+' '.join(data_list)+"\n"
 
 def handler(signum,frame):
   return
@@ -82,11 +81,7 @@ def main():
   initialize()
   """INNER SPACES"""
 
-  SPACE_PR_SYS_DATA=" |"
-  SPACE_AP_TIME="\n"
-
   """LAUNCH DZEN"""
-
   proc = Popen('dzen2 -w '+dzen_size.DZEN_SIZE+' -fg '+TEXT_COLOR+' -bg '+BACKGROUND_COLOR+' -ta l -fn '+FONT, 
                           shell=True, 
                           stdin=PIPE
@@ -96,18 +91,6 @@ def main():
   p=""
 
   """MAIN LOOP"""
-##  #for i in RUN_ORDER:
-##  #weather.get_weather().start()
-##  #hddtemp.get_hddtemp().start()
-##  cpu.get_cpu().start()
-##  ram.get_mem().start()
-##  battery.get_battery().start()
-##  mpd_mod.get_mpd().start()
-##  #dmesg.get_dmesg().start()
-##  statusnet.get_statusnet().start() 
-##  gmail_check.gmail().start()
-##  cputemp.get_cpuTemp().start()
-##  #torrentflux.get_tflux().start()
 
   while True:
     alarm(1)

@@ -14,10 +14,10 @@ class download_url(Thread):
     global STATUS,STATUSNET
     while True:
       try:
-        STATUS = simplejson.load(urlopen("http://status.foss.ntua.gr/index.php/api/statuses/public_timeline.json?count=3"))
+        STATUS = load(urlopen("http://status.foss.ntua.gr/index.php/api/statuses/public_timeline.json?count=3"))
         sleep(60)
       except URLError:
-        STATUSNET=' '+set_colors(STATUSNET_COLOR,STATUSNET_BACKGROUND_COLOR)+"Cannot connect"+set_normal_color()
+        STATUSNET=set_colors(STATUSNET_COLOR,STATUSNET_BACKGROUND_COLOR)+"Cannot connect"+set_normal_color()
         sleep(60)
 
 def statusnet():
@@ -31,7 +31,7 @@ class get_statusnet(Thread):
         #			status = simplejson.load(urllib2.urlopen(STATUSNET_URL))
         #			STATUSNET = status[1]['user']['name']
         for i in range(0,3):
-          status_user = ' '+set_colors(STATUSNET_COLOR,STATUSNET_BACKGROUND_COLOR)+'StatusNet [' + str(i+1) + '/3]: ' +set_colors(STATUSNET_USER_COLOR,STATUSNET_BACKGROUND_COLOR)+STATUS[i]['user']['screen_name']+set_normal_color()
+          status_user = set_colors(STATUSNET_COLOR,STATUSNET_BACKGROUND_COLOR)+'StatusNet [' + str(i+1) + '/3]: ' +set_colors(STATUSNET_USER_COLOR,STATUSNET_BACKGROUND_COLOR)+STATUS[i]['user']['screen_name']+set_normal_color()
           text = STATUS[i]['text']
           text = text.decode('utf-8')
           text = text.encode('iso-8859-7', 'replace')

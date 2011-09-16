@@ -17,7 +17,7 @@ class get_gmail_check(Thread):
         srv.select()
         status,count=srv.search(None,'UnSeen')
       #unseen= len(c.get_inbox_conversations(is_unread=True))
-        UNREAD=" "+set_colors(GMAIL_UNREAD_COLOR,GMAIL_BACKGROUND_COLOR)+str(len(count[0][1:].split()))+set_colors(GMAIL_COLOR,GMAIL_BACKGROUND_COLOR)+" ^i("+ICON_PATH+"/envelope.xbm)"+set_normal_color()
+        UNREAD=set_colors(GMAIL_UNREAD_COLOR,GMAIL_BACKGROUND_COLOR)+str(len(count[0][1:].split()))+set_colors(GMAIL_COLOR,GMAIL_BACKGROUND_COLOR)+" ^i("+ICON_PATH+"/envelope.xbm)"+set_normal_color()
         srv.close()
         srv.logout()
         sleep(60)

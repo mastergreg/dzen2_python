@@ -24,7 +24,7 @@ class get_battery(Thread):
           n.set_urgency(pynotify.URGENCY_NORMAL)
           n.set_timeout(pynotify.EXPIRES_NEVER)
           n.show()
-        BATTERY=" ^i(/home/master/.icons/dzen2/power-bat.xbm)"+set_measure_color(100-percent)+str(percent)+set_normal_color()+"%"
+        BATTERY="^i(/home/master/.icons/dzen2/power-bat.xbm)"+set_measure_color(100-percent)+str(percent)+set_normal_color()+"%"
         f1.close()
         f2.close()
       except IOError:

@@ -7,7 +7,7 @@
 #
 #* Creation Date : 15-09-2011
 #
-#* Last Modified : Thu 15 Sep 2011 11:27:48 PM EEST
+#* Last Modified : Fri 16 Sep 2011 04:45:49 PM EEST
 #
 #* Created By : Greg Liras <gregliras@gmail.com>
 #
@@ -38,7 +38,7 @@ class get_cputemp(Thread):
           percent1 = 100
         if percent2 > 100:
           percent2 = 100
-        CPUTEMP = " ^i("+ICON_PATH+"/temp.xbm) "+ set_gradient_color(100-percent1)+str(TC1)+set_normal_color()+" | "+set_gradient_color(100-percent2)+str(TC2)+set_normal_color()
+        CPUTEMP = "^i("+ICON_PATH+"/temp.xbm) "+ set_gradient_color(100-percent1)+str(TC1)+set_normal_color()+" | "+set_gradient_color(100-percent2)+str(TC2)+set_normal_color()
         f1.close()
         f2.close()
       except IOError:

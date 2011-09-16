@@ -8,13 +8,13 @@ RAM=""
 
 def ram():
   return RAM
-class get_mem(Thread):
+class get_ram(Thread):
   def run(self):
     global RAM,RAM_SLEEP
     while 1:
       used=bytes_to_mb(used_phymem()-cached_mem()-buffers())
       percentage=(100*used)/TOTAL_RAM_MB
-      RAM=" ^i("+ICON_PATH+"/mem.xbm) "+set_measure_color(percentage)+str(used)+set_normal_color()+"M"
+      RAM="^i("+ICON_PATH+"/mem.xbm) "+set_measure_color(percentage)+str(used)+set_normal_color()+"M"
       sleep(int(RAM_SLEEP))
 def bytes_to_mb(byte):
   return byte/1048576
