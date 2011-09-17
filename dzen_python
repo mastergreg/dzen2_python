@@ -71,7 +71,7 @@ def get_data(p):
   for i in RUN_ORDER:
     j = eval(data_dict[i])
     data_list.append(j)
-  return '^tw()'+' '.join(data_list)+"\n"
+  return r'^tw()'+""" """.join(data_list)+"\n"
 
 def handler(signum,frame):
   return

@@ -2,7 +2,7 @@ from threading import Thread
 from psutil import used_phymem,TOTAL_PHYMEM
 from config_mod import RAM_SLEEP,ICON_PATH 
 from time import sleep
-from colors import set_normal_color, set_measure_color
+from colors import set_normal_color, set_measure_color, set_gradient_color
 
 RAM=""
 
@@ -14,7 +14,7 @@ class get_ram(Thread):
     while 1:
       used=bytes_to_mb(used_phymem()-cached_mem()-buffers())
       percentage=(100*used)/TOTAL_RAM_MB
-      RAM="^i("+ICON_PATH+"/mem.xbm) "+set_measure_color(percentage)+str(used)+set_normal_color()+"M"
+      RAM="^i("+ICON_PATH+"/mem.xbm) "+set_gradient_color(percentage)+str(used)+set_normal_color()+"M"
       sleep(int(RAM_SLEEP))
 def bytes_to_mb(byte):
   return byte/1048576
