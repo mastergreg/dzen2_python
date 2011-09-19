@@ -54,7 +54,7 @@ def initialize():
 
 def get_data(p):
   data_list=[]
-  data_dict={ 'xmonad': "replace_p(p)",
+  data_dict={ 'xmonad': "replace_p(p)", 
               'cpu' : "cpu.cpu()",
               'ram' : "ram.ram()",
               'hddtemp' : "hddtemp.hddtemp()",
@@ -71,7 +71,7 @@ def get_data(p):
   for i in RUN_ORDER:
     j = eval(data_dict[i])
     data_list.append(j)
-  return r'^tw()'+""" """.join(data_list)+"\n"
+  return '^tw()'+" ".join(data_list)+"\n"
 
 def handler(signum,frame):
   return
