@@ -3,9 +3,10 @@ from config_mod import FONT,SCREEN_PERCENTAGE
 
 
 def resolution():
-  res_proc= Popen("xrandr  | grep \* | cut -d' ' -f4",shell=True,stdout=PIPE)
+  res_proc= Popen("xrandr  | awk -F' ' '/current/ { print $8 $9 $10}'",shell=True,stdout=PIPE)
   res = res_proc.stdout
-  return res.read().split()[0].split('x')
+  inp = res.read()[:-1]
+  return inp.split('x')
   
 
 
