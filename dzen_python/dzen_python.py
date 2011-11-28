@@ -52,9 +52,13 @@ def initialize():
     mpd_mod.get_mpd().start()
 			
 
+def split():
+  return ""
+
 def get_data(p):
   data_list=[]
   data_dict={ 'xmonad': "replace_p(p)", 
+              'split': "split()",
               'cpu' : "cpu.cpu()",
               'ram' : "ram.ram()",
               'hddtemp' : "hddtemp.hddtemp()",

@@ -14,7 +14,7 @@ class download_url(Thread):
     global STATUS,STATUSNET
     while True:
       try:
-        STATUS = load(urlopen("http://status.foss.ntua.gr/index.php/api/statuses/public_timeline.json?count=3"))
+        STATUS = load(urlopen("http://status.foss.ntua.gr/api/statuses/public_timeline.as?count=3"))
         sleep(60)
       except URLError:
         STATUSNET=set_colors(STATUSNET_COLOR,STATUSNET_BACKGROUND_COLOR)+"Cannot connect"+set_normal_color()
