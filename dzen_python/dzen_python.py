@@ -5,12 +5,12 @@ from subprocess import Popen,PIPE
 from sys import stdin as SysStdin,stdout as SysStdout,stderr as SysStderr
 from os import system,getenv
 from re import sub
-from config_mod import replace_p, TEXT_COLOR, BACKGROUND_COLOR, FONT, TIME_COLOR, TIME_BACKGROUND_COLOR, SCREEN_PERCENTAGE, RUN_ORDER 
+from config_mod import replace_p,XMONAD_PERCENTAGE, TEXT_COLOR, BACKGROUND_COLOR, FONT, TIME_COLOR, TIME_BACKGROUND_COLOR, SCREEN_PERCENTAGE, RUN_ORDER 
 import dzen_size
 #import torrentflux
-logfile = open(getenv('HOME')+'/.dzen_python.log',"a")
+logfile = open(getenv('HOME')+'/.dzen_python.log','a')
 SysStdout = logfile
-errorfile = open(getenv('HOME')+'/.dzen_python.errors',"a")
+errorfile = open(getenv('HOME')+'/.dzen_python.errors','a')
 SysStderr = errorfile 
 
 
@@ -53,7 +53,7 @@ def initialize():
 			
 
 def split():
-  return ""
+  return "^pa("+str(float(dzen_size.DZEN_SIZE)*float(XMONAD_PERCENTAGE))+")"
 
 def get_data(p):
   data_list=[]

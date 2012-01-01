@@ -61,6 +61,7 @@ HOSTS = config.get('main_config','MPD_HOST').split(',')
 PORT = config.get('main_config','MPD_PORT')
 
 """SCREEN"""
+XMONAD_PERCENTAGE = config.get('main_config','XMONAD_PERCENTAGE')
 SCREEN_PERCENTAGE = config.get('main_config','SCREEN_PERCENTAGE')
 
 
