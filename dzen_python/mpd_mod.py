@@ -15,13 +15,14 @@ class get_mpd(Thread):
     while True:
       host=HOSTS[current_host]
       CON_ID = {'host':host, 'port':PORT}
-      sleep(1)
+      sleep(3)
       try:  
         client.connect(**CON_ID)
         SONG='^i(/home/master/.icons/dzen2/music.xbm) '+str(client.currentsong()['artist'])+" - "+str(client.currentsong()['title'])
-      except ConnectionError:
-        SONG='^i(/home/master/.icons/dzen2/music.xbm) '+str(client.currentsong()['artist'])+" - "+str(client.currentsong()['title'])
-      except SocketError:
-        current_host= (current_host+1)% len(HOSTS)
+        client.disconnect()
+        continue
+      except ConnectionError: 
+        continue
+      except:
         SONG='^i(/home/master/.icons/dzen2/music.xbm) '+'No MPD'
         continue
