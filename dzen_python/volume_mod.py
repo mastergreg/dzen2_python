@@ -8,7 +8,6 @@ def volume():
 class get_volume(Thread):
   def run (self):
     global VOLUME
-    m = Mixer('Master')
     while True:
-      VOLUME=str(m.getvolume()[0])
-      sleep(5)
+      VOLUME=str(Mixer('Master').getvolume()[0])
+      sleep(1)
