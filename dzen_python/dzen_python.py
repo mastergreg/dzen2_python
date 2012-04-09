@@ -51,6 +51,10 @@ def initialize():
     mpd_mod=__import__('mpd_mod',globals(),locals(),['song','get_mpd'],-1)
     mpd_mod.get_mpd().start()
 			
+  if 'volume' in RUN_ORDER:
+    volume_mod=__import__('volume_mod',globals(),locals(),['volume','get_volume'],-1)
+    volume_mod.get_volume().start()
+import volume_mod
 
 def split():
   return "^pa("+str(float(dzen_size.DZEN_SIZE)*float(XMONAD_PERCENTAGE))+")"
@@ -70,7 +74,8 @@ def get_data(p):
               'gmail' : "gmail_check.unread()",
 #              'torrentflux' : "torrentflux.SPEEDS",
               'cputemp': "cputemp.cputemp()",
-			        'statusnet': "statusnet.statusnet()"}
+			        'statusnet': "statusnet.statusnet()",
+                    'volume' : "volume_mod.volume()"  }
 			
   for i in RUN_ORDER:
     j = eval(data_dict[i])
