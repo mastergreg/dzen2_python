@@ -24,5 +24,5 @@ class get_mpd(Thread):
       except ConnectionError: 
         continue
       except:
-        SONG='^i(/home/master/.icons/dzen2/music.xbm) '+'No MPD'
+        SONG='^i(/home/master/.icons/dzen2/music.xbm) '+'n/a'
         continue

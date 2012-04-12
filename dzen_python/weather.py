@@ -4,7 +4,7 @@ from re import search
 from urllib2 import Request, urlopen, URLError
 from config_mod import WEATHER_BACKGROUND_COLOR, WEATHER_COLOR, WEATHER_SLEEP, REQ
 from colors import set_colors,set_normal_color
-WEATHER_COND=""
+WEATHER_COND=set_colors(WEATHER_COLOR,WEATHER_BACKGROUND_COLOR)+"n/a"+set_normal_color()
 
 def weather_cond():
   return WEATHER_COND
@@ -23,6 +23,6 @@ class get_weather(Thread):
         sleep(float(WEATHER_SLEEP))
         continue
       except (URLError,AttributeError):
-        WEATHER_COND=set_colors(WEATHER_COLOR,WEATHER_BACKGROUND_COLOR)+"No Net"+set_normal_color()
+        WEATHER_COND=set_colors(WEATHER_COLOR,WEATHER_BACKGROUND_COLOR)+"n/a"+set_normal_color()
         sleep(60)
         continue

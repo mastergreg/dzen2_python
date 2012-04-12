@@ -3,7 +3,7 @@ from threading import Thread
 from config_mod import GMAIL_BACKGROUND_COLOR,GMAIL_COLOR,GMAIL_UNREAD_COLOR,GMAIL_USERNAME,GMAIL_PASSWORD,ICON_PATH
 from colors import set_colors,set_normal_color
 from imaplib import IMAP4_SSL
-UNREAD=" NoConnection"
+UNREAD=set_colors(GMAIL_UNREAD_COLOR,GMAIL_BACKGROUND_COLOR)+"n/a"+set_colors(GMAIL_COLOR,GMAIL_BACKGROUND_COLOR)+" ^i("+ICON_PATH+"/envelope.xbm)"+set_normal_color()
 def unread():
   return UNREAD
 class get_gmail_check(Thread):
