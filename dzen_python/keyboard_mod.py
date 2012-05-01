@@ -20,4 +20,6 @@ class get_layout(Thread):
                 inp = res.read().strip()
                 LAYOUT = set_colors(KB_COLOR, KB_BACKGROUND_COLOR)+inp.split('+')[1].upper()+set_normal_color()
             except:
-                sleep(1)
+                print "keyboard_mod error"
+                
+            sleep(1)
