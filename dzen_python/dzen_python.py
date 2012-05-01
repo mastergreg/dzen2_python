@@ -16,7 +16,7 @@ SysStderr = errorfile
 
 
 def initialize():
-  global cpu,ram,hddtemp,battery,time_mod,weather,mpd_mod,dmesg,gmail_check,cputemp,statusnet
+  global cpu,ram,hddtemp,battery,time_mod,weather,mpd_mod,dmesg,gmail_check,cputemp,statusnet,volume_mod,keyboard
 
   if 'cpu' in RUN_ORDER:
     cpu=__import__('cpu',globals(),locals(),['cpu','get_cpu'],-1)
@@ -54,7 +54,9 @@ def initialize():
   if 'volume' in RUN_ORDER:
     volume_mod=__import__('volume_mod',globals(),locals(),['volume','get_volume'],-1)
     volume_mod.get_volume().start()
-import volume_mod
+  if 'keyboard' in RUN_ORDER:
+    keyboard=__import__('keyboard_mod',globals(),locals(),['layout','get_layout'],-1)
+    keyboard.get_layout().start()
 
 def split():
   return "^pa("+str(float(dzen_size.DZEN_SIZE)*float(XMONAD_PERCENTAGE))+")"
@@ -75,7 +77,8 @@ def get_data(p):
 #              'torrentflux' : "torrentflux.SPEEDS",
               'cputemp': "cputemp.cputemp()",
 			        'statusnet': "statusnet.statusnet()",
-                    'volume' : "volume_mod.volume()"  }
+                    'volume' : "volume_mod.volume()", 
+                    'keyboard' : "keyboard.layout()"  }
 			
   for i in RUN_ORDER:
     j = eval(data_dict[i])

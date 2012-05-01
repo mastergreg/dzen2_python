@@ -65,6 +65,11 @@ XMONAD_PERCENTAGE = config.get('main_config','XMONAD_PERCENTAGE')
 SCREEN_PERCENTAGE = config.get('main_config','SCREEN_PERCENTAGE')
 
 
+"""KEYBOARD"""
+KB_COLOR=config.get('main_config','KB_COLOR')
+KB_BACKGROUND_COLOR=config.get('main_config','KB_BACKGROUND_COLOR')
+
+
 
 """ICONS"""
 ICON_PATH=config.get('main_config','ICON_PATH')
