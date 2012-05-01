@@ -4,10 +4,10 @@ from alsaaudio import Mixer
 VOLUME="N/A" 
 
 def volume():
-  return VOLUME
+    return VOLUME
 class get_volume(Thread):
-  def run (self):
-    global VOLUME
-    while True:
-      VOLUME=str(Mixer('Master').getvolume()[0])
-      sleep(1)
+    def run (self):
+        global VOLUME
+        while True:
+            VOLUME=str(Mixer('Master').getvolume()[0])
+            sleep(1)
