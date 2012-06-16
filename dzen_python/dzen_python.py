@@ -97,7 +97,6 @@ def get_data(p):
                 'keyboard'      :   "keyboard.layout()"  }
       		
     for i in RUN_ORDER:
-        print(i)
         j = eval(data_dict[i])
         data_list.append(j)
     data = " ".join(data_list)

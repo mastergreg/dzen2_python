@@ -34,7 +34,6 @@ def set_gradient_color(percentage):
         colorMix = mix_colors(parse_rgb(MEASURE_NORMAL_COLOR),parse_rgb(MEASURE_MEDI_COLOR),percentage*2)
     else:
         colorMix = mix_colors(parse_rgb(MEASURE_MEDI_COLOR),parse_rgb(MEASURE_HIGH_COLOR),(percentage-50)*2)
-    print(colorMix)
     return '^fg('+colorMix+')'
 
 
