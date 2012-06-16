@@ -5,8 +5,9 @@ def parse_rgb(color):
     b = int(int(color[5:7],16)*100/256.)
     return (r,g,b)
 
-def unparse_rgb((newR,newG,newB)):
-    r = "%X" % int(newR*256/100.)
+def unparse_rgb(nRGB):
+    (newR,newG,newB) = nRGB
+    r = "%02X".format(int(newR*256/100.))
     if len(r)==1:
         r="0"+r
     g = "%X" % int(newG*256/100.)
@@ -17,7 +18,9 @@ def unparse_rgb((newR,newG,newB)):
         b="0"+b
     return "#"+r+g+b
 
-def mix_colors((lowR,lowG,lowB),(highR,highG,highB),perc):
+def mix_colors(low, high, perc):
+    (lowR,lowG,lowB) = low
+    (highR,highG,highB) = high
     lowPerc = 100 - perc
     newR = (lowR*lowPerc+highR*perc)/100.
     newG = (lowG*lowPerc+highG*perc)/100.

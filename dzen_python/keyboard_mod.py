@@ -14,12 +14,9 @@ class get_layout(Thread):
     def run(self):
         global LAYOUT
         while True:
-            try:
-                res_proc= Popen("setxkbmap -print | grep xkb_symbols",shell=True,stdout=PIPE)
-                res = res_proc.stdout
-                inp = res.read().strip()
-                LAYOUT = set_colors(KB_COLOR, KB_BACKGROUND_COLOR)+inp.split('+')[1].upper()+set_normal_color()
-            except:
-                print "keyboard_mod error"
+            res_proc= Popen("setxkbmap -print | grep xkb_symbols",shell=True,stdout=PIPE)
+            res = res_proc.stdout
+            inp = res.read().decode().strip()
+            LAYOUT = set_colors(KB_COLOR, KB_BACKGROUND_COLOR)+inp.split('+')[1].upper()+set_normal_color()
                 
             sleep(1)

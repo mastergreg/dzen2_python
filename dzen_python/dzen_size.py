@@ -6,7 +6,8 @@ def resolution():
     res_proc= Popen("xrandr  | awk -F' ' '/current/ { print $8 $9 $10}'",shell=True,stdout=PIPE)
     res = res_proc.stdout
     inp = res.read()[:-1]
-    return inp.split('x')
+    b = inp.decode().split('x')
+    return b
   
 
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from signal import signal, alarm, SIGALRM
 from subprocess import Popen,PIPE
@@ -80,6 +80,7 @@ def get_data(p):
                 'keyboard'      :   "keyboard.layout()"  }
       		
     for i in RUN_ORDER:
+        print(i)
         j = eval(data_dict[i])
         data_list.append(j)
     data = " ".join(data_list)
@@ -111,11 +112,11 @@ def main():
             p=SysStdin.readline()
             p=p.replace('\n','')
             data=get_data(p)
-            child_stdin.write(data)
+            child_stdin.write(data.encode('latin1'))
             continue
         except:
             data=get_data(p)
-            child_stdin.write(data)
+            child_stdin.write(data.encode('latin1'))
             continue
 
 if __name__ == "__main__":
