@@ -43,7 +43,7 @@ def buffers():
             return int(line.split()[1]) * 1024
 
 def bytes_to_mb(byte):
-    return byte/1048576
+    return byte//1048576
 RAM=""
 TOTAL_RAM=total_mem()
 TOTAL_RAM_MB=bytes_to_mb(TOTAL_RAM)

@@ -3,8 +3,10 @@
 from signal import signal, alarm, SIGALRM
 from subprocess import Popen,PIPE
 from sys import stdin as SysStdin,stdout as SysStdout,stderr as SysStderr
-from os import system,getenv
+from os import system,getenv, O_NONBLOCK
+#from fcntl import fcntl, F_GETFL, F_SETFL
 from re import sub
+from time import sleep
 from config_mod import replace_p,XMONAD_PERCENTAGE, TEXT_COLOR, BACKGROUND_COLOR, FONT, TIME_COLOR, TIME_BACKGROUND_COLOR, SCREEN_PERCENTAGE, RUN_ORDER 
 import dzen_size
 #import torrentflux
@@ -13,6 +15,14 @@ SysStdout = logfile
 errorfile = open(getenv('HOME')+'/.dzen_python.errors','a')
 SysStderr = errorfile 
 
+
+
+
+class Timeout(Exception):
+    def __init__(self):
+        pass
+    def __str__(self):
+        return "Timeout"
 
 
 def initialize():
@@ -57,6 +67,13 @@ def initialize():
         keyboard=__import__('keyboard_mod',globals(),locals(),['layout','get_layout'],-1)
         keyboard.get_layout().start()
 
+
+
+    ## make stdin a non-blocking file
+    #fd = SysStdin.fileno()
+    #fl = fcntl(fd, F_GETFL)
+    #fcntl(fd, F_SETFL, fl | O_NONBLOCK)
+
 def split():
     return "^pa("+str(float(dzen_size.DZEN_SIZE)*float(XMONAD_PERCENTAGE))+")"
 
@@ -88,6 +105,7 @@ def get_data(p):
     return '^tw()'+data+"\n"
 
 def handler(signum,frame):
+    raise Timeout
     return
 
 
@@ -110,11 +128,11 @@ def main():
         alarm(1)
         try:
             p=SysStdin.readline()
-            p=p.replace('\n','')
+            p=p.rstrip()
             data=get_data(p)
             child_stdin.write(data.encode('latin1'))
             continue
-        except:
+        except Timeout:
             data=get_data(p)
             child_stdin.write(data.encode('latin1'))
             continue
