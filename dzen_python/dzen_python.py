@@ -129,11 +129,11 @@ def main():
             p=SysStdin.readline()
             p=p.rstrip()
             data=get_data(p)
-            child_stdin.write(data.encode('latin1'))
+            child_stdin.write(data.encode('latin1','ignore'))
             continue
         except Timeout:
             data=get_data(p)
-            child_stdin.write(data.encode('latin1'))
+            child_stdin.write(data.encode('latin1','ignore'))
             continue
 
 if __name__ == "__main__":

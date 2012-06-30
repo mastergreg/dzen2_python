@@ -121,12 +121,12 @@ def replace_p(p):
   for couple in findandreplace:
     a=a.replace(couple[0],couple[1])
   #text = a.decode('utf-8', 'ignore')
-  #text = text.encode('iso-8859-7', 'ignore')
+  text = a.encode('iso-8859-7', 'ignore')
 
   from_chars = 'áâãäåæçèéêëìíîïðñóòôõö÷øùÜÝÞßúÀüýûàþÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÓÔÕÖ×ØÙ¶¸¹ºÚ¼¾Û¿'.encode('latin1')
   to_chars =  'abgdezh8iklmn3oprsstufxywaehiiiouuuwABGDEZH8IKLMNJOPRSTYFXCWAEHIIOUUW'.encode('latin1')
   trantab = bytes.maketrans( from_chars, to_chars )
-  text = a.translate(trantab)
-  return text
+  text = text.translate(trantab)
+  return text.decode('utf-8', 'ignore')
 
         
