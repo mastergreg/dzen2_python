@@ -17,9 +17,10 @@ class get_weather(Thread):
                 request = Request(REQ)
                 response = urlopen(request)
                 the_page = response.read().decode()
-                result= search('e:.*?C',the_page)
-                result_sum = search('"summary">.*?<',the_page)
-                WEATHER_COND=set_colors(WEATHER_COLOR,WEATHER_BACKGROUND_COLOR)+result_sum.group(0)[10:len(result_sum.group(0))-2]+ result.group(0)[2:len(result.group(0))-6]+"C"+set_normal_color()
+                #result= search('e:.*?C',the_page)
+                #result_sum = search('"summary">.*?<',the_page)
+                result = search('Weather ::.*?<', the_page)
+                WEATHER_COND=set_colors(WEATHER_COLOR,WEATHER_BACKGROUND_COLOR)+result.group(0)[11:-1]+set_normal_color()
                 sleep(float(WEATHER_SLEEP))
                 continue
             except (URLError,AttributeError):

@@ -82,6 +82,7 @@ STATUSNET_USER_COLOR=config.get('main_config','STATUSNET_USER_COLOR')
 
 STATUSNET_BACKGROUND_COLOR=config.get('main_config','STATUSNET_BACKGROUND_COLOR')
 
+GMAIL_NOTIFIER=config.get('main_config','GMAIL_NOTIFIER')
 GMAIL_BACKGROUND_COLOR=config.get('main_config','GMAIL_BACKGROUND_COLOR')
 GMAIL_COLOR=config.get('main_config','GMAIL_COLOR')
 GMAIL_UNREAD_COLOR=config.get('main_config','GMAIL_UNREAD_COLOR')
