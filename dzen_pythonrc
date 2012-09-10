@@ -31,7 +31,7 @@ TIME_BACKGROUND_COLOR = #000000
 
 
 
-RUN_ORDER=xmonad,cpu,cputemp,ram,time,weather,gmail,mpd_song,statusnet,break_line
+RUN_ORDER=xmonad,split,cpu,cputemp,ram,time,weather,keyboard,gmail,mpd_song,statusnet,volume
 
 
 MEASURE_NORMAL_COLOR = #00FF00
@@ -39,12 +39,15 @@ MEASURE_MEDI_COLOR = #FFFF00
 MEASURE_HIGH_COLOR= #FF0000
 
 CPU_BAR_COLOR = #000000
+CPU_CORES = 2
 
 FONT = -misc-fixed-medium-r-semicondensed--13-90-100-100-c-60-iso8859-1 
 
 
+KB_COLOR = #f2f200
+KB_BACKGROUND_COLOR = #101010
 
-REQ = http://www.rssweather.com/icao/lgav/wx.php
+REQ = http://www.rssweather.com/wx/gr/athinai/rss.php
 WEATHER_SLEEP = 3600
 HDDTEMP_SLEEP = 10
 CPU_SLEEP = 1
