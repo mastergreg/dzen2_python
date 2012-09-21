@@ -1,6 +1,6 @@
 from time import sleep
 from threading import Thread
-from config_mod import GMAIL_NOTIFIER,GMAIL_BACKGROUND_COLOR,GMAIL_COLOR,GMAIL_UNREAD_COLOR,GMAIL_USERNAME,GMAIL_PASSWORD,ICON_PATH
+from config_mod import GMAIL_NOTIFIER,GMAIL_BACKGROUND_COLOR,GMAIL_COLOR,GMAIL_UNREAD_COLOR,GMAIL_MAILBOXES,GMAIL_USERNAME,GMAIL_PASSWORD,ICON_PATH
 from colors import set_colors,set_normal_color
 from imaplib import IMAP4_SSL
 UNREAD=set_colors(GMAIL_UNREAD_COLOR,GMAIL_BACKGROUND_COLOR)+"n/a"+set_colors(GMAIL_COLOR,GMAIL_BACKGROUND_COLOR)+" ^i("+ICON_PATH+"/envelope.xbm)"+set_normal_color()
@@ -39,10 +39,13 @@ class get_gmail_check(Thread):
                 srv = IMAP4_SSL("imap.gmail.com")
                 count=[]
                 srv.login(GMAIL_USERNAME,GMAIL_PASSWORD)
-                srv.select()
-                status,count=srv.search(None,'UnSeen')
-                #unseen= len(c.get_inbox_conversations(is_unread=True))
-                unseen = len(count[0][1:].split())
+                unseen = 0
+                for i in GMAIL_MAILBOXES.split(','):
+                    srv.select(i)
+                    status,count=srv.search(None,'UnSeen')
+                    #unseen= len(c.get_inbox_conversations(is_unread=True))
+                    unseen += len(count[0][1:].split())
+
                 notifier.check(unseen)
                 UNREAD=set_colors(GMAIL_UNREAD_COLOR,GMAIL_BACKGROUND_COLOR)+str(unseen)+set_colors(GMAIL_COLOR,GMAIL_BACKGROUND_COLOR)+" ^i("+ICON_PATH+"/envelope.xbm)"+set_normal_color()
                 srv.close()

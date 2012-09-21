@@ -31,5 +31,5 @@ class get_cpu(Thread):
             fpercentage=100*(freq-MIN_FREQ)/(MAX_FREQ-MIN_FREQ)
             cpu_frequencies=" @ "+set_gradient_color(fpercentage)+str(round(freq/1000.,1))+set_normal_color()+"GHz"
             percentage=round(cpu_percent(), 1)
-            CPU="^i("+ICON_PATH+"/cpu.xbm) "+set_gradient_color(percentage)+"^r("+str(ceil(float(percentage/2)))+"x8)"+set_color(CPU_BAR_COLOR)+"^r("+str(50-ceil(float(percentage/2)))+"x8)"+set_normal_color()+cpu_frequencies
+            CPU="^i("+ICON_PATH+"/cpu.xbm) "+set_gradient_color(percentage)+"^r("+str(int(ceil(float(percentage/2))))+"x8)"+set_color(CPU_BAR_COLOR)+"^r("+str(int(50-ceil(float(percentage/2))))+"x8)"+set_normal_color()+cpu_frequencies
             sleep(int(CPU_SLEEP))

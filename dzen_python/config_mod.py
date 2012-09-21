@@ -87,8 +87,8 @@ GMAIL_BACKGROUND_COLOR=config.get('main_config','GMAIL_BACKGROUND_COLOR')
 GMAIL_COLOR=config.get('main_config','GMAIL_COLOR')
 GMAIL_UNREAD_COLOR=config.get('main_config','GMAIL_UNREAD_COLOR')
 
+GMAIL_MAILBOXES=config.get('main_config','GMAIL_MAILBOXES')
 GMAIL_USERNAME=config.get('main_config','GMAIL_USERNAME')
-
 GMAIL_PASSWORD=config.get('main_config','GMAIL_PASSWORD')
 
 #TF_ADD=config.get('main_config','TF_ADD')
