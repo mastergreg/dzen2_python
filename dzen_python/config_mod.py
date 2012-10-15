@@ -91,6 +91,8 @@ GMAIL_MAILBOXES=config.get('main_config','GMAIL_MAILBOXES')
 GMAIL_USERNAME=config.get('main_config','GMAIL_USERNAME')
 GMAIL_PASSWORD=config.get('main_config','GMAIL_PASSWORD')
 
+WIFI_SLEEP=config.get('main_config','WIFI_SLEEP')
+WIFI_IFACE=config.get('main_config','WIFI_IFACE')
 #TF_ADD=config.get('main_config','TF_ADD')
 #TF_USER=config.get('main_config','TF_USER')
 #TF_PASS=config.get('main_config','TF_PASS')

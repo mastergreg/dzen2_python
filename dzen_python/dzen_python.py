@@ -26,7 +26,7 @@ class Timeout(Exception):
 
 
 def initialize():
-    global cpu,ram,hddtemp,battery,time_mod,weather,mpd_mod,dmesg,gmail_check,cputemp,statusnet,volume_mod,keyboard
+    global cpu,ram,hddtemp,battery,time_mod,weather,mpd_mod,dmesg,gmail_check,cputemp,statusnet,volume_mod,keyboard,wifi
 
     if 'cpu' in RUN_ORDER:
         cpu=__import__('cpu',globals(),locals(),['cpu','get_cpu'],-1)
@@ -63,6 +63,9 @@ def initialize():
     if 'volume' in RUN_ORDER:
         volume_mod=__import__('volume_mod',globals(),locals(),['volume','get_volume'],-1)
         volume_mod.get_volume().start()
+    if 'wifi' in RUN_ORDER:
+        wifi=__import__('wifi',globals(),locals(),['wifi','get_wifi'],-1)
+        wifi.wifi().start()
     if 'keyboard' in RUN_ORDER:
         keyboard=__import__('keyboard_mod',globals(),locals(),['layout','get_layout'],-1)
         keyboard.get_layout().start()
@@ -92,8 +95,9 @@ def get_data(p):
                 'gmail'         :   "gmail_check.unread()",
 #                'torrentflux'  :   "torrentflux.SPEEDS",
                 'cputemp'       :   "cputemp.cputemp()",
-      		    'statusnet'     :   "statusnet.statusnet()",
+      		    'statusnet'     :   "statusnet.get_statusnet()",
                 'volume'        :   "volume_mod.volume()", 
+                'wifi'          :   "wifi.get_wifi()", 
                 'keyboard'      :   "keyboard.layout()"  }
       		
     for i in RUN_ORDER:
