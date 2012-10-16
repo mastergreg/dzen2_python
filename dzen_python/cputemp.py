@@ -7,7 +7,7 @@
 #
 #* Creation Date : 15-09-2011
 #
-#* Last Modified : Tue 01 May 2012 03:47:58 PM EEST
+#* Last Modified : Tue 16 Oct 2012 10:04:50 AM EEST
 #
 #* Created By : Greg Liras <gregliras@gmail.com>
 #
@@ -15,12 +15,21 @@
 
 from threading import Thread
 from time import sleep
-from config_mod import ICON_PATH
+from icons import set_icon
 from colors import set_gradient_color,set_normal_color
 
 CPUTEMP=""
 def cputemp():
     return CPUTEMP
+def set_cputemp(TC1, percent1, TC2, percent2):
+    global CPUTEMP
+    CPUTEMP ="{0}{1}{2} | {3}{4}{5}".format(set_icon("temp.xbm"),
+            set_gradient_color(100-percent1),
+            TC1,
+            set_normal_color(),
+            set_gradient_color(100-percent2),
+            TC2,
+            set_normal_color())
 class get_cputemp(Thread):
     def run(self):
         global CPUTEMP
@@ -38,7 +47,7 @@ class get_cputemp(Thread):
                     percent1 = 100
                 if percent2 > 100:
                     percent2 = 100
-                CPUTEMP = "^i("+ICON_PATH+"/temp.xbm) "+ set_gradient_color(100-percent1)+str(TC1)+set_normal_color()+" | "+set_gradient_color(100-percent2)+str(TC2)+set_normal_color()
+                CPUTEMP = set_cputemp(TC1, percent1, TC2, percent2)
                 f1.close()
                 f2.close()
             except IOError:

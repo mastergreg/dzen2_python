@@ -1,7 +1,8 @@
 from threading import Thread
-from config_mod import RAM_SLEEP,ICON_PATH 
+from config_mod import RAM_SLEEP
 from time import sleep
 from colors import set_normal_color, set_measure_color, set_gradient_color
+from icons import set_icon
 
 def free_mem():
     """Return the free amount  memory on the system, in bytes."""
@@ -56,5 +57,5 @@ class get_ram(Thread):
         while 1:
             used=bytes_to_mb(used_phymem()-cached_mem()-buffers())
             percentage=(100*used)/TOTAL_RAM_MB
-            RAM="^i("+ICON_PATH+"/mem.xbm) "+set_gradient_color(percentage)+str(used)+set_normal_color()+"M"
+            RAM=set_icon("mem.xbm")+set_gradient_color(percentage)+str(used)+set_normal_color()+"M"
             sleep(int(RAM_SLEEP))

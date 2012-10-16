@@ -1,8 +1,9 @@
 from threading import Thread
 from time import sleep
 from colors import set_measure_color,set_normal_color
-from config_mod import BATTERY_NAME, ICON_PATH
+from config_mod import BATTERY_NAME
 from pynotify import init as notiftinit,Notification,URGENCY_NORMAL,EXPIRES_NEVER
+from icons import set_icon
 BATTERY=""
 def battery():
     return BATTERY
@@ -39,7 +40,7 @@ class get_battery(Thread):
               for i in f2lines:
                   if i.startswith("last full capacity"):
                       full=i.split()[2]
-              BATTERY=" ^i("+ICON_PATH+"/power-bat.xbm)"+set_measure_color(100-percent)+str(percent)+set_normal_color()+"%"
+              BATTERY=set_icon("/power-bat.xbm")+set_measure_color(100-percent)+str(percent)+set_normal_color()+"%"
               f1.close()
               f2.close()
           except:
