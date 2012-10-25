@@ -4,7 +4,7 @@
 #* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 # File Name : wifi.py
 # Creation Date : 15-10-2012
-# Last Modified : Tue 16 Oct 2012 09:45:31 AM EEST
+# Last Modified : Tue 16 Oct 2012 05:13:30 PM EEST
 # Created By : Greg Liras <gregliras@gmail.com>
 #_._._._._._._._._._._._._._._._._._._._._.*/
 
@@ -30,13 +30,10 @@ def get_wifi():
     return WIFI
 def get_ssid(status):
     status = dict([ map(lambda y: str(y), x.split('=')) for x in str(status)[2:].strip("'").split("\\n") if x])
-    if status['wpa_state'] == 'SCANNING':
-        return 'scanning'
-    elif status['wpa_state'] == 'COMPLETED':
+    if status['wpa_state'] == 'COMPLETED':
         return status['ssid']
     else:
-        print(status)
-        return 'check the log'
+        return status['wpa_state']
 
 class wifi(Thread):
     def run(self):
